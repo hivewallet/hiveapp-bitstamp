@@ -1,0 +1,8 @@
+{
+  "name": "Bitstamp",
+  "id": "bitstamp",
+  "version": "1.0",
+  "author": "Mateusz Bil",
+  "description": "Hive Bitstamp Client",
+  "icon": "Icon.png"
+}
