@@ -1,0 +1,15 @@
+<div id="login" ng-controller="loginCtrl">
+  <div style="color:{{logger.color}}">{{logger.msg}}</div>
+  <form>
+    <label>bitstamp id:
+      <input type="text" id="user" name="user" ng-model="credentials.login"/>
+    </label>
+    <br/>
+    <label>bitstamp password:
+      <input type="password" id="password" name="password" ng-model="credentials.password"/>
+    </label>
+    {{credentials.login}}
+    {{credentials.password}}
+    <input type="submit" value="login" ng-click="submitClick()" />
+  </form>
+</div>

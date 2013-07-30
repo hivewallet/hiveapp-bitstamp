@@ -1,34 +1,10 @@
 <!doctype html>
-<html ng-app>
+<html ng-app="hive-bitstamp">
   <head>
-    <script type="text/javascript" src="angular.min.js"></script>  
+    <script type="text/javascript" src="angular.min.js"></script>   
     <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript" src="script.js"></script>
   </head>
-<body>
-  <form>
-    <label>bitstamp id:
-    <input type="text" id="user" name="user" />
-    </label>
-    
-    <br/>
-    <label>bitstamp password:
-    <input type="password" id="password" name="password"/>
-    </label>
-    
-    <br/>
-    
-    <label>bitcoins amount:
-    <input type="number" id="amount" />
-    </label>
-    
-    <br/>
-    <a href="#" id="send_deposit" >send deposit</a>
-    <a href="#" id="withdrawal" >withdrawal</a>
-  </form>
-  
-  <div id="logger"></div>
-
- 
+<body ng-controller="mainCtrl">
 </body>
 </html>
