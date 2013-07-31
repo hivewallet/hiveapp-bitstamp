@@ -1,28 +1,117 @@
 body {
-  background: #f1f1f1
-  color: white;  
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 13px;
   overflow: hidden;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  -webkit-user-select:none;
+  -webkit-text-size-adjust:none;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-.screen {
+.loader {
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-  overflow: scroll;
-  -webkit-transition: all 0.3s ease-out;
-  -webkit-transform: translate3d(100%,0,0);
+  overflow: hidden;
+  -webkit-transition: -webkit-transform 0.3s ease-out;
+  -webkit-transform: translate3d(0,0,0), opacity;
+  z-index: 210;
+  background: rgba(255,255,255,0.75);
+  color: black;
+  box-shadow: inset 0 0 100px rgba(0,0,0,0.7);
+  text-align: center;
+  padding: 150px 0;
+  opacity: 0;
+  display: none;
+  font-size: 15px;
 }
-.screen.left {
+.loader img {
+  width: 150px;
+  display: block;
+  margin: 0 auto;
+}
+
+.page {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  opacity: 1;
+  -webkit-transition: all 0.3s ease-out;
+  -webkit-transform: translate3d(0,0,0), opacity;
+  z-index: 95;
+}
+.page.top {
+  -webkit-transform: translate3d(0,-100%,0);
+}
+.page.left {
   -webkit-transform: translate3d(-100%,0,0);
 }
-.screen.center {
+.page.right {
+  -webkit-transform: translate3d(100%,0,0);
+}
+.page.center {
+  z-index: 96;
+}
+.page.fade {
+  opacity: 0;
+}
+
+.page.hidden {
+  -webkit-transform: translate3d(-100%,0,0);
+  display: none;
+}
+
+.page header {
+  position: absolute;
+  width: 100%;
+  z-index: 100;
   -webkit-transform: translate3d(0,0,0);
+}
+
+.page footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  z-index: 99;
+  -webkit-transform: translate3d(0,0,0);
+}
+
+.page .wrapper  {
+  position:absolute; 
+  z-index:98;
+	top:0; bottom:0; left:0;
+	width:100%;
+	overflow: auto;
+    overflow-x: hidden;
+	-webkit-overflow-scrolling: touch;
+}
+.page article {
+  padding: 100px 0;
+  position:absolute; z-index:1;
+  -webkit-touch-callout:none;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+  width:100%;
+}
+
+.page article.art-glossary {
+  width: 95%;
+}
+
+.top-ivy,
+.bottom-ivy {
+  position: absolute;
+}
+
+@media all and (min-width: 640px) {
+  .page article {
+    width: 320px;
+    margin-left: -160px;
+    left: 50%;
+  }
 }
