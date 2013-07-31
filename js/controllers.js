@@ -37,12 +37,12 @@ function ScreenCtrl($scope) {
   });
 }
 
-function AnotherCtrl($scope) {
-}
+bitstampApp.controller('MainCtrl', ['$scope', function($scope) {
+  $scope.credentials = {};
+}]);
 
-var LoginCtrl = function($scope, $http) {
+bitstampApp.controller('LoginCtrl', ['$scope', '$http', function($scope, $http) {
   $scope.logger = {};
-  
   $scope.submitClick = function(event) {
     postData = {user: ($scope.credentials.login || ""), password: ($scope.credentials.password || "")};
     console.log(postData);
@@ -52,7 +52,7 @@ var LoginCtrl = function($scope, $http) {
           $scope.logger.color = "red";
           $scope.logger.msg = "wrong user or password";
        } else {
-         console.log(response)
+         $scope.pushView('home-screen');
        }
       })
       .fail(function(response){
@@ -60,7 +60,11 @@ var LoginCtrl = function($scope, $http) {
           $scope.logger.msg = "Something went wrong!";
       });
   }
-}
+}]);
+
+bitstampApp.controller('HomeCtrl', ['$scope', function($scope) {
+
+}]);
 
 /*
 
