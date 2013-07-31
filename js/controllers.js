@@ -45,7 +45,6 @@ bitstampApp.controller('LoginCtrl', ['$scope', '$http', function($scope, $http) 
   $scope.logger = {};
   $scope.submitClick = function(event) {
     postData = {user: ($scope.credentials.login || ""), password: ($scope.credentials.password || "")};
-    console.log(postData);
     $.post('https://www.bitstamp.net/api/bitcoin_deposit_address/', postData)
       .done(function(response){
        if (response['error']) {
@@ -54,6 +53,7 @@ bitstampApp.controller('LoginCtrl', ['$scope', '$http', function($scope, $http) 
        } else {
          $scope.pushView('home-screen');
        }
+          $scope.$apply();
       })
       .fail(function(response){
           $scope.logger.color = "red";
