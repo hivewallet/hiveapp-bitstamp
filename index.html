@@ -7,29 +7,9 @@
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/controllers.js"></script>
   </head>
-<body ng-app="hive-bitstamp" ng-controller="ScreenCtrl" ng-init="pushView('login-screen')">
-  <div ng-controller="MainCtrl">
-    <div class="screen" ng-class="getScreenClass('login-screen')" ng-controller="LoginCtrl">
-      <div class="login-screen">
-        <div style="color:{{logger.color}}">{{logger.msg}}</div>
-        <form>
-          <label>bitstamp id:
-            <input type="text" id="user" name="user" ng-model="credentials.login"/>
-          </label>
-          <br/>
-          <label>bitstamp password:
-            <input type="password" id="password" name="password" ng-model="credentials.password"/>
-          </label>
-          {{credentials.login}}
-          {{credentials.password}}
-          <input type="submit" value="login" ng-click="submitClick()" />
-        </form>
-      </div>
-    </div>
-    <div class="screen" ng-class="getScreenClass('home-screen')" ng-controller="HomeCtrl">
-      <div class="home-screen">
-      </div>
-    </div>
-  </div>
+<body class="main" ng-app="hive-bitstamp" ng-controller="ScreenCtrl">
+  <div ng-include src="menuPartial"></div>
+  <div class="page" ng-repeat="view in views" ng-class="view.position" ng-include src="view.partial" onload="partialLoaded()"><div class="begie"></div></div>
+  <div class="loader"><img src="img/loading.gif"/>{{loaderText}}</div>
 </body>
 </html>
