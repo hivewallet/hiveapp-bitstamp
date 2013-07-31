@@ -1,0 +1,28 @@
+body {
+  background: #f1f1f1
+  color: white;  
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.screen {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: scroll;
+  -webkit-transition: all 0.3s ease-out;
+  -webkit-transform: translate3d(100%,0,0);
+}
+.screen.left {
+  -webkit-transform: translate3d(-100%,0,0);
+}
+.screen.center {
+  -webkit-transform: translate3d(0,0,0);
+}
