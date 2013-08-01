@@ -1,0 +1,9 @@
+<div class="screen" ng-controller="HomeCtrl" ng-init="initHome()">
+  <div class="menu" ng-click="popView()">
+    <a href="#" ng-click="logOut()">Log out</a>
+  </div>
+  <div class="login-screen">
+    <div style="color:{{logger.color}}">{{logger.msg}}</div>
+    Hello {{currentUser.login}}!
+  </div>
+</div>

@@ -16,7 +16,146 @@ bitstampApp.directive( [ 'focus', 'blur', 'keyup', 'keydown', 'keypress', 'scrol
     return container;
 }, { } ) );
 
-function ScreenCtrl($scope) {
+function MainCtrl($scope, $timeout) {
+  // ---------------------
+  $scope.credentials = {};
+  $scope.logOut = function() {
+    $scope.credentials.login = "";
+    $scope.credentials.password = "";
+    $scope.popView();
+  }
+  // ---------------------
+  $scope.lockView = false;
+  $scope.views = [{
+    partial: 'templates/login.html',
+    position: 'center'
+  }];
+  $scope.menuPartial = null;
+  $scope.menuSelection = null;
+  $scope.updatePositions = function(offset) {
+    if ( offset == undefined )  offset = 0;
+    var n = $scope.views.length-1+offset;
+    var i;
+    for( i in $scope.views ) {
+      var view = $scope.views[i];
+      view.position = i < n ? 'left' : i > n ? 'right' : 'center';
+    }
+  };
+  $scope.pushView = function(viewName) {
+    if ($scope.lockView)  return;
+    $scope.lockView = true;
+    $scope.views.push({
+      partial: 'templates/' + viewName + '.html',
+      position: 'right'
+    });
+  };
+  $scope.$on("pushView", function(name, partial) {
+    $scope.pushView(partial);
+  });
+  $scope.popView = function() {
+    if ($scope.lockView)  return;
+    $scope.lockView = true;
+    
+    if ( $scope.views.length - 2 >= 0 ) {
+      var view = $scope.views[$scope.views.length-2];
+      view.position = 'left';
+    }
+    setTimeout(function(){
+      $scope.updatePositions(-1);
+      $scope.$apply();
+    }, 50);
+    setTimeout(function(){
+      $scope.lockView = false;
+      $scope.views.pop();
+      $scope.$apply();
+    }, 600);
+  };
+  $scope.$on("popView", function() {
+    $scope.popView();
+  });
+  $scope.partialLoaded = function() {
+    setTimeout(function(){
+      $scope.$apply(function(){
+        $scope.updatePositions();
+      });
+    }, 50);
+    setTimeout(function(){
+      $scope.$apply(function(){
+        $scope.lockView = false;
+        if ( $scope.views.length - 2 >= 0 ) {
+          var view = $scope.views[$scope.views.length-2];
+          view.position = 'left hidden';
+        }
+      });
+    }, 1000);
+  };
+  $scope.$on("loadView", function(name, partial, menu, position) {
+    if ( typeof menu != 'undefined' )
+      $scope.menuPartial = 'templates/' + menu + '.html';
+    $scope.views = [{ partial: 'templates/' + partial + '.html', position: position ? position : 'top'}];
+    $scope.menuSelection = partial;
+    isDown = false;
+  });
+  $scope.$on("loadMenu", function(name, partial) {
+    $scope.menuPartial = 'templates/' + partial + '.html';
+  });
+  $scope.loaderText = 'Loading...';
+  $scope.$on("showLoader", function(name, text) {
+    $scope.loaderText = text ? text : 'Loading...';
+    $('body .loader').css({display: 'block'}).animate({opacity: 1}, 300);
+    //$scope.$apply();
+  });
+  $scope.hideLoader = function() {
+    $('body .loader').animate({opacity: 0}, function(){
+      $('body .loader').css('display', 'none');
+    });
+  };
+  $scope.$on("hideLoader", function() {
+    $scope.hideLoader();
+  });
+  $(function(){
+    var isDown = false;
+    $('[data-push-view], [data-pop-view], [data-load-view], .back')
+      .on('#main', 'touchstart mousedown', function(e){ 
+        isDown = true;
+      })
+      .on('#main', 'touchmove mousemove', function(e){ 
+        isDown = false;
+      });
+    $('[data-push-view]').on('#main', 'touchend mouseup', function(e){ 
+      if (isDown) {
+        $scope.pushView( $(this).data('pushView') );
+        $scope.$apply();
+        isDown = false;
+        e.preventDefault();
+      }
+    });
+    $('[data-pop-view], .back').on('#main', 'touchend mouseup', function(e){  
+      if (isDown) {
+        $scope.popView();
+        $scope.$apply();
+        isDown = false;
+        e.preventDefault();
+      }
+    });
+    $('[data-load-view]').on('#main', 'touchend mouseup', function(e){ 
+      var partial = $(this).data('loadView');
+      if (isDown && partial != $scope.menuSelection) {
+        $scope.$apply(function(){
+        $scope.views = [{ partial: 'templates/' + partial + '.html', position: 'top'}];
+        $scope.menuSelection = partial;
+        });
+        isDown = false;
+      }
+    });
+    var hash = window.location.hash.replace('#/', '');
+    if (hash.length) {
+      $scope.pushView( hash );
+      $scope.$apply();
+    }
+  });
+}
+  /*
   $scope.screens = [];
   $scope.getScreenClass = function(screen) {
     if ( !$scope.screens || $scope.screens.lenght ) return 'right';
@@ -35,36 +174,41 @@ function ScreenCtrl($scope) {
   $scope.$on('pushView', function(e, view){
     $scope.pushView(view);
   });
-}
-
-bitstampApp.controller('MainCtrl', ['$scope', function($scope) {
-  $scope.credentials = {};
-}]);
+  */
 
 bitstampApp.controller('LoginCtrl', ['$scope', '$http', function($scope, $http) {
   $scope.logger = {};
   $scope.submitClick = function(event) {
     postData = {user: ($scope.credentials.login || ""), password: ($scope.credentials.password || "")};
+    $scope.$emit('showLoader', 'Logging In...');
     $.post('https://www.bitstamp.net/api/bitcoin_deposit_address/', postData)
       .done(function(response){
        if (response['error']) {
           $scope.logger.color = "red";
           $scope.logger.msg = "wrong user or password";
+          $scope.$emit('hideLoader');
        } else {
-         $scope.pushView('home-screen');
+         console.log('logged in');
+         MainCtrl.credentials = $scope.credentials;
+         $scope.pushView('home');
+         $scope.$emit('hideLoader');
        }
-          $scope.$apply();
+        $scope.$apply();
       })
       .fail(function(response){
-          $scope.logger.color = "red";
-          $scope.logger.msg = "Something went wrong!";
+        $scope.logger.color = "red";
+        $scope.logger.msg = "Something went wrong!";
+        $scope.$emit('hideLoader');
       });
   }
 }]);
 
-bitstampApp.controller('HomeCtrl', ['$scope', function($scope) {
-
-}]);
+function HomeCtrl($scope) {
+  $scope.initHome = function() {
+    $scope.currentUser = MainCtrl.credentials;
+    console.log('current user: ', $scope.currentUser);
+  }
+}
 
 /*
 
