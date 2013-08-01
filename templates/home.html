@@ -2,8 +2,24 @@
   <div class="menu" ng-click="popView()">
     <a href="#" ng-click="logOut()">Log out</a>
   </div>
-  <div class="login-screen">
+  <div class="home-screen">
     <div style="color:{{logger.color}}">{{logger.msg}}</div>
-    Hello {{currentUser.login}}!
+    <div class="well">
+      Hello {{currentUser.login}}!
+    </div>
+    <div class="current-btc-data">
+      <div class="databox">
+        <div class="label">BTC price</div>
+        <div class="value">{{btcData.last}}</div>
+      </div>
+      <div class="databox">
+        <div class="label">Highest buy</div>
+        <div class="value">{{btcData.bid}}</div>
+      </div>
+      <div class="databox">
+        <div class="label">Lowest sell</div>
+        <div class="value">{{btcData.ask}}</div>
+      </div>
+    </div>
   </div>
 </div>

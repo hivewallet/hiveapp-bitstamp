@@ -207,6 +207,28 @@ function HomeCtrl($scope) {
   $scope.initHome = function() {
     $scope.currentUser = MainCtrl.credentials;
     console.log('current user: ', $scope.currentUser);
+    $scope.getBitcoinInfo();
+  }
+  $scope.getBitcoinInfo = function() {
+    $.get('https://www.bitstamp.net/api/ticker/')
+      .done(function(data){
+       if (data['error']) {
+          $scope.logger.color = "red";
+          $scope.logger.msg = "wrong user or password";
+          $scope.$emit('hideLoader');
+       } else {
+         console.log(data);
+         $scope.btcData = data;
+         $scope.pushView('home');
+         $scope.$emit('hideLoader');
+       }
+        $scope.$apply();
+      })
+      .fail(function(data){
+        $scope.logger.color = "red";
+        $scope.logger.msg = "Something went wrong!";
+        $scope.$emit('hideLoader');
+      });
   }
 }
 

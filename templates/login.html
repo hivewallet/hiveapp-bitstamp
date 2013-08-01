@@ -1,16 +1,13 @@
 <div class="screen" ng-controller="LoginCtrl">
   <div class="login-screen">
     <div style="color:{{logger.color}}">{{logger.msg}}</div>
+    <div class="logo">
+      <img src="Icon.png" alt="Bitstamp">
+    </div>
     <form>
-      <label>bitstamp id:<br>
-        <input type="text" id="user" name="user" ng-model="credentials.login"/>
-      </label>
-      <br/>
-      <label>bitstamp password:<br>
-        <input type="password" id="password" name="password" ng-model="credentials.password"/>
-      </label>
-      <br>
-      <input type="submit" value="login" ng-click="submitClick()" />
+      <input type="text" id="user" placeholder="Bitstamp ID" name="user" ng-model="credentials.login"/>
+      <input type="password" id="password" placeholder="Password" name="password" ng-model="credentials.password"/>
+      <a href="#" class="button log-in" value="login" ng-click="submitClick()">Log in</a>
     </form>
   </div>
 </div>
