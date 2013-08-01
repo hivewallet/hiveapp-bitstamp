@@ -1,17 +1,9 @@
-<div class="screen" ng-class="getScreenClass('login-screen')" ng-controller="LoginCtrl">
+<div class="screen" ng-controller="HomeCtrl" ng-init="initHome()">
+  <div class="menu" ng-click="popView()">
+    <a href="#" ng-click="logOut()">Log out</a>
+  </div>
   <div class="login-screen">
     <div style="color:{{logger.color}}">{{logger.msg}}</div>
-    <form>
-      <label>bitstamp id:
-        <input type="text" id="user" name="user" ng-model="credentials.login"/>
-      </label>
-      <br/>
-      <label>bitstamp password:
-        <input type="password" id="password" name="password" ng-model="credentials.password"/>
-      </label>
-      {{credentials.login}}
-      {{credentials.password}}
-      <input type="submit" value="login" ng-click="submitClick()" />
-    </form>
+    Hello {{currentUser.login}}!
   </div>
 </div>

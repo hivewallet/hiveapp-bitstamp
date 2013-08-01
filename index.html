@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="hive-bitstamp">
+<html>
   <head>
     <link href="css/normalize.css" rel="stylesheet" type="text/css"/>
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
@@ -7,7 +7,7 @@
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/controllers.js"></script>
   </head>
-<body class="main" ng-app="hive-bitstamp" ng-controller="ScreenCtrl">
+<body class="main" ng-app="hive-bitstamp" ng-controller="MainCtrl">
   <div ng-include src="menuPartial"></div>
   <div class="page" ng-repeat="view in views" ng-class="view.position" ng-include src="view.partial" onload="partialLoaded()"><div class="begie"></div></div>
   <div class="loader"><img src="img/loading.gif"/>{{loaderText}}</div>

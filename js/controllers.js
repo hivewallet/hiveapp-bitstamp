@@ -16,7 +16,15 @@ bitstampApp.directive( [ 'focus', 'blur', 'keyup', 'keydown', 'keypress', 'scrol
     return container;
 }, { } ) );
 
-function ScreenCtrl($scope, $timeout) {
+function MainCtrl($scope, $timeout) {
+  // ---------------------
+  $scope.credentials = {};
+  $scope.logOut = function() {
+    $scope.credentials.login = "";
+    $scope.credentials.password = "";
+    $scope.popView();
+  }
+  // ---------------------
   $scope.lockView = false;
   $scope.views = [{
     partial: 'templates/login.html',
@@ -168,10 +176,6 @@ function ScreenCtrl($scope, $timeout) {
   });
   */
 
-bitstampApp.controller('MainCtrl', ['$scope', function($scope) {
-  $scope.credentials = {};
-}]);
-
 bitstampApp.controller('LoginCtrl', ['$scope', '$http', function($scope, $http) {
   $scope.logger = {};
   $scope.submitClick = function(event) {
@@ -182,22 +186,29 @@ bitstampApp.controller('LoginCtrl', ['$scope', '$http', function($scope, $http) 
        if (response['error']) {
           $scope.logger.color = "red";
           $scope.logger.msg = "wrong user or password";
-         $scope.$emit('hideLoader');
+          $scope.$emit('hideLoader');
        } else {
-         $scope.pushView('home-screen');
+         console.log('logged in');
+         MainCtrl.credentials = $scope.credentials;
+         $scope.pushView('home');
+         $scope.$emit('hideLoader');
        }
-          $scope.$apply();
+        $scope.$apply();
       })
       .fail(function(response){
-          $scope.logger.color = "red";
-          $scope.logger.msg = "Something went wrong!";
+        $scope.logger.color = "red";
+        $scope.logger.msg = "Something went wrong!";
+        $scope.$emit('hideLoader');
       });
   }
 }]);
 
-bitstampApp.controller('HomeCtrl', ['$scope', function($scope) {
-
-}]);
+function HomeCtrl($scope) {
+  $scope.initHome = function() {
+    $scope.currentUser = MainCtrl.credentials;
+    console.log('current user: ', $scope.currentUser);
+  }
+}
 
 /*
 
