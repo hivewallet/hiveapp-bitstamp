@@ -176,45 +176,19 @@ function MainCtrl($scope, $timeout) {
   });
   */
 
-//bitstampApp.controller('LoginCtrl', ['$scope', '$http', function($scope, $http) {
-//  $scope.logger = {};
-//  $scope.submitClick = function(event) {
-//    postData = {user: ($scope.credentials.login || ""), password: ($scope.credentials.password || "")};
-//    $scope.$emit('showLoader', 'Logging In...');
-//    $.post('https://www.bitstamp.net/api/bitcoin_deposit_address/', postData)
-//      .done(function(response){
-//       if (response['error']) {
-//          $scope.logger.color = "red";
-//          $scope.logger.msg = "wrong user or password";
-//          $scope.$emit('hideLoader');
-//       } else {
-//         console.log('logged in');
-//         MainCtrl.credentials = $scope.credentials;
-//         $scope.pushView('home');
-//         $scope.$emit('hideLoader');
-//       }
-//        $scope.$apply();
-//      })
-//      .fail(function(response){
-//        $scope.logger.color = "red";
-//        $scope.logger.msg = "Something went wrong!";
-//        $scope.$emit('hideLoader');
-//      });
-//  }
-//}]);
-
 bitstampApp.controller('LoginCtrl', ['$scope', '$http', function($scope, $http) {
   $scope.logger = {};
   $scope.submitClick = function(event) {
     $scope.$emit('showLoader', 'Logging In...');
-    var login_status = bitstampLogin($scope.credentials.login, $scope.credentials.password);
-    if ( login_status[0] == true ) {
+    var lgn = bitstampLogin($scope.credentials.login, $scope.credentials.password);
+    if ( lgn.success ) {
       MainCtrl.credentials = $scope.credentials;
       $scope.pushView('home');
     } else {
       $scope.logger.color = "red";
-      $scope.logger.msg = login_status[1];
+      $scope.logger.msg = lgn.results;
     }
+    $scope.$emit('hideLoader');
   }
 }]);
 
@@ -225,25 +199,15 @@ function HomeCtrl($scope) {
     $scope.getBitcoinInfo();
   }
   $scope.getBitcoinInfo = function() {
-    $.get('https://www.bitstamp.net/api/ticker/')
-      .done(function(data){
-       if (data['error']) {
-          $scope.logger.color = "red";
-          $scope.logger.msg = "wrong user or password";
-          $scope.$emit('hideLoader');
-       } else {
-         console.log(data);
-         $scope.btcData = data;
-         $scope.pushView('home');
-         $scope.$emit('hideLoader');
-       }
-        $scope.$apply();
-      })
-      .fail(function(data){
-        $scope.logger.color = "red";
-        $scope.logger.msg = "Something went wrong!";
-        $scope.$emit('hideLoader');
-      });
+    var rslt = bitstampGetBicoinInfo();
+    if ( rslt.success ) {
+      $scope.btcData = rslt.results;
+      $scope.pushView('home');
+    } else {
+      $scope.logger.color = "red";
+      $scope.logger.msg = rslt.results;
+    }
+    $scope.$emit('hideLoader');
   }
 }
 
