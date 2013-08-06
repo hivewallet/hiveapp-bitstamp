@@ -1,4 +1,4 @@
-var bitstampLoginPage = 'https://www.bitstamp.net/api/bitcoin_deposit_address/';
+var bitstampLoginPage = 'https://www.bitstamp.net/api/balance/';
 var bitstampGetBitcoinInfoPage = 'https://www.bitstamp.net/api/ticker/';
 
 function bitstampLogin(user, password) {
@@ -15,7 +15,7 @@ function bitstampLogin(user, password) {
       results = 'wrong user or password';
     } else {
       success = true;
-      results = user + ' logged in';
+      results = response;
     }
   }).fail(function(response) {
     results = 'something went wrong';

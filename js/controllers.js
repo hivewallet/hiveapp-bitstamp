@@ -16,9 +16,10 @@ bitstampApp.directive( [ 'focus', 'blur', 'keyup', 'keydown', 'keypress', 'scrol
     return container;
 }, { } ) );
 
-function MainCtrl($scope, $timeout) {
+bitstampApp.controller('MainCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
   // ---------------------
   $scope.credentials = {};
+  $scope.user_balance = {};
   $scope.logOut = function() {
     $scope.credentials.login = "";
     $scope.credentials.password = "";
@@ -154,7 +155,7 @@ function MainCtrl($scope, $timeout) {
       $scope.$apply();
     }
   });
-}
+}]);
   /*
   $scope.screens = [];
   $scope.getScreenClass = function(screen) {
@@ -176,13 +177,14 @@ function MainCtrl($scope, $timeout) {
   });
   */
 
-bitstampApp.controller('LoginCtrl', ['$scope', '$http', function($scope, $http) {
+bitstampApp.controller('LoginCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
   $scope.logger = {};
   $scope.submitClick = function(event) {
     $scope.$emit('showLoader', 'Logging In...');
     var lgn = bitstampLogin($scope.credentials.login, $scope.credentials.password);
     if ( lgn.success ) {
-      MainCtrl.credentials = $scope.credentials;
+      $rootScope.credentials = $scope.credentials;
+      $rootScope.user_balance = lgn.results;
       $scope.pushView('home');
     } else {
       $scope.logger.color = "red";
@@ -192,11 +194,10 @@ bitstampApp.controller('LoginCtrl', ['$scope', '$http', function($scope, $http) 
   }
 }]);
 
-function HomeCtrl($scope) {
+bitstampApp.controller('HomeCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
   $scope.initHome = function() {
-    $scope.currentUser = MainCtrl.credentials;
-    console.log('current user: ', $scope.currentUser);
     $scope.getBitcoinInfo();
+    $scope.user_balance = $rootScope.user_balance;
   }
   $scope.getBitcoinInfo = function() {
     var rslt = bitstampGetBicoinInfo();
@@ -209,7 +210,7 @@ function HomeCtrl($scope) {
     }
     $scope.$emit('hideLoader');
   }
-}
+}]);
 
 /*
 
