@@ -158,27 +158,57 @@ input:focus {
   margin: 5px 0;
 }
 
+.customer-id {
+  color: #8EC919;
+  font-size: 20px;
+  font-weight: bold;
+}
+
 .current-btc-data {
   background: #8EC919;
-  padding: 10px;
+  padding: 5px 10px;
   border-radius: 5px;
   color: white;
   font-size: 16px;
 }
-.current-btc-data .databox {
+.data {
+  padding: 10px;
+  color: 333;
+  font-size: 16px;
+}
+.current-btc-data .databox, .data .databox {
   padding: 10px 0;
   border-bottom: 1px solid rgba(255,255,255,0.2)
 }
-.current-btc-data .databox:last-of-type {
+.current-btc-data .databox:last-of-type, .data .databox:last-of-type {
   border-bottom: 0
 }
-.current-btc-data .databox .label {
+.data .databox {
+  border-bottom: 1px solid rgba(0,0,0,0.1)
+}
+.data .databox:last-of-type {
+  border-bottom: 0
+}
+.current-btc-data .databox .label, .data .databox .label {
   display: inline-block;
   width: 50%;
 }
-.current-btc-data .databox .value {
+.current-btc-data .databox .value, .data .databox .value {
   display: inline-block;
   font-weight: bold;
+}
+
+.current-btc-data .databox .value i {
+  color: rgba(255,255,255,0.5);
+}
+
+.data .databox .value {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.data .databox .value i {
+  color: rgba(0,0,0,0.2);
 }
 
 .button {
@@ -219,6 +249,57 @@ input:focus {
   -webkit-box-shadow: 0 3px 7px rgba(0,0,0,.2));
   -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, .2);
   box-shadow: 0 3px 7px rgba(0, 0, 0, .2);
+}
+
+.button.btn-small {
+  float: none;
+  display: inline-block;
+  font-size: 14px;
+  height: auto;
+  width: auto;
+  line-height: 14px;
+  margin: 10px;
+  padding: 13px 20px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  text-transform: uppercase;
+}
+
+.button.btn-small i {
+  font-size: 1.5em;
+  line-height: 11px;
+}
+
+.actions {
+  overflow: hidden;
+  text-align: left;
+  margin-bottom: 125px;
+}
+
+.actions .button {
+  margin: 10px 10px 10px 0;
+}
+
+.menu {
+  text-align: right;
+}
+
+.menu .button{
+  margin: 0 0 0 0;
+  padding: 9px 16px;
+  font-size: 12px;
+  background: #CCC;
+  border: 1px solid #CACACA;
+}
+
+.menu .button.active {
+  background-color: #8EC919;
+  background-image: -webkit-gradient(linear,0 0,0 bottom,from(#9ECC34),to(#8EC919));
+  background-image: -moz-linear-gradient(#9ECC34,#8EC919);
+  background-image: -o-linear-gradient(#9ECC34,#8EC919);
+  background-image: linear-gradient(#9ECC34,#8EC919);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9ECC34',endColorstr='#8EC919',GradientType=0);
 }
 
 @media all and (min-width: 640px) {

@@ -1,34 +1,56 @@
 <div class="screen" ng-controller="HomeCtrl" ng-init="initHome()">
-  <div class="menu" ng-click="popView()">
-    <a href="#" ng-click="logOut()">Log out</a>
+  <div class="menu">
+    <a href="#" class="button btn-small active">
+      <i class="icon-home"></i>
+      Home
+    </a>
+    <a href="#" class="button btn-small">
+      <i class="icon-bitcoin"></i>
+      Orders
+    </a>
+    <a href="#" ng-click="logOut()" class="button btn-small">
+      <i class="icon-off"></i>
+      Log Out
+    </a>
   </div>
   <div class="home-screen">
     <div style="color:{{logger.color}}">{{logger.msg}}</div>
     <div class="well">
-      Hello {{currentUser.login}}!
+      Customer ID:
+      <span class="customer-id">{{credentials.login}}</span>
     </div>
-    <div class="current-btc-data">
+    <div class="data">
       <div class="databox">
         <div class="label">BTC balance</div>
-        <div class="value">{{user_balance.btc_balance}}</div>
+        <div class="value">{{user_balance.btc_balance}} <i class="icon-bitcoin"></i></div>
       </div>
       <div class="databox">
         <div class="label">USD balance</div>
-        <div class="value">{{user_balance.usd_balance}}</div>
+        <div class="value">{{user_balance.usd_balance}} <i class="icon-usd"></i></div>
       </div>
+    </div>
+    <div class="actions">
+      <a href="#" class="button btn-small">
+        <i class="icon-download"></i>
+        Deposit
+      </a>
+      <a href="#" class="button btn-small">
+        <i class="icon-upload"></i>
+        Withdrawal
+      </a>
     </div>
     <div class="current-btc-data">
       <div class="databox">
         <div class="label">BTC price</div>
-        <div class="value">{{btcData.last}}</div>
+        <div class="value">{{btcData.last}} <i class="icon-usd"></i></div>
       </div>
       <div class="databox">
         <div class="label">Highest buy</div>
-        <div class="value">{{btcData.bid}}</div>
+        <div class="value">{{btcData.bid}} <i class="icon-usd"></i></div>
       </div>
       <div class="databox">
         <div class="label">Lowest sell</div>
-        <div class="value">{{btcData.ask}}</div>
+        <div class="value">{{btcData.ask}} <i class="icon-usd"></i></div>
       </div>
     </div>
   </div>
