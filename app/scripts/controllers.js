@@ -28,7 +28,7 @@ bitstampApp.controller('MainCtrl', ['$scope', '$http', '$rootScope', function($s
   // ---------------------
   $scope.lockView = false;
   $scope.views = [{
-    partial: 'templates/login.html',
+    partial: 'views/login.html',
     position: 'center'
   }];
   $scope.menuPartial = null;
@@ -46,7 +46,7 @@ bitstampApp.controller('MainCtrl', ['$scope', '$http', '$rootScope', function($s
     if ($scope.lockView)  return;
     $scope.lockView = true;
     $scope.views.push({
-      partial: 'templates/' + viewName + '.html',
+      partial: 'views/' + viewName + '.html',
       position: 'right'
     });
   };
@@ -92,13 +92,13 @@ bitstampApp.controller('MainCtrl', ['$scope', '$http', '$rootScope', function($s
   };
   $scope.$on("loadView", function(name, partial, menu, position) {
     if ( typeof menu != 'undefined' )
-      $scope.menuPartial = 'templates/' + menu + '.html';
-    $scope.views = [{ partial: 'templates/' + partial + '.html', position: position ? position : 'top'}];
+      $scope.menuPartial = 'views/' + menu + '.html';
+    $scope.views = [{ partial: 'views/' + partial + '.html', position: position ? position : 'top'}];
     $scope.menuSelection = partial;
     isDown = false;
   });
   $scope.$on("loadMenu", function(name, partial) {
-    $scope.menuPartial = 'templates/' + partial + '.html';
+    $scope.menuPartial = 'views/' + partial + '.html';
   });
   $scope.loaderText = 'Loading...';
   $scope.$on("showLoader", function(name, text) {
@@ -143,7 +143,7 @@ bitstampApp.controller('MainCtrl', ['$scope', '$http', '$rootScope', function($s
       var partial = $(this).data('loadView');
       if (isDown && partial != $scope.menuSelection) {
         $scope.$apply(function(){
-        $scope.views = [{ partial: 'templates/' + partial + '.html', position: 'top'}];
+        $scope.views = [{ partial: 'views/' + partial + '.html', position: 'top'}];
         $scope.menuSelection = partial;
         });
         isDown = false;

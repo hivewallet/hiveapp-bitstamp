@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link href="styles/normalize.css" rel="stylesheet" type="text/css"/>
+    <link href="styles/font-awesome.css" rel="stylesheet" type="text/css"/>
+    <link href="styles/style.css" rel="stylesheet" type="text/css"/>
+    <!-- endbuild -->
+    <!-- build:js scripts/modules.js -->
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="bower_components/jquery/jquery.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script type="text/javascript" src="scripts/bitstamp_api.js"></script>
+    <script type="text/javascript" src="scripts/controllers.js"></script>
+    <!-- endbuild -->
+  </head>
+  <body class="main" ng-app="hive-bitstamp" ng-controller="MainCtrl">
+    <div ng-include src="menuPartial"></div>
+    <div class="page" ng-repeat="view in views" ng-class="view.position" ng-include src="view.partial" onload="partialLoaded()"><div class="begie"></div></div>
+    <div class="loader"><img src="images/loading.gif"/>{{loaderText}}</div>
+  </body>
+</html>

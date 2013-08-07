@@ -18,7 +18,7 @@ function bitstampLogin(user, password) {
       results = response;
     }
   }).fail(function(response) {
-    results = 'something went wrong';
+    results = response;
   });
 
   return { success: success, results: results }
