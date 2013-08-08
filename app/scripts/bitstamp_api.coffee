@@ -1,8 +1,26 @@
 class Bitstamp
  
   apiUrl = 
-    loginPage: "https://www.bitstamp.net/api/balance/"
-    getBitcoinInfoPage: "https://www.bitstamp.net/api/ticker/"
+    getBalance:                "https://www.bitstamp.net/api/balance/"
+    getTicker:                 "https://www.bitstamp.net/api/ticker/"
+    getOrderBook:              "https://www.bitstamp.net/api/order_book/"
+    getTransactions:           "https://www.bitstamp.net/api/transactions/"
+    getBitInstatReserves:      "https://www.bitstamp.net/api/bitinstant/"
+    getEurUsdConversionRate:   "https://www.bitstamp.net/api/eur_usd/"
+    postAccountBalance:        "https://www.bitstamp.net/api/balance/"
+    postUserTransactions:      "https://www.bitstamp.net/api/user_transactions/"
+    postOpenOrders:            "https://www.bitstamp.net/api/open_orders/"
+    postCancelOrder:           "https://www.bitstamp.net/api/cancel_order/"
+    postBuyLimitOrder:         "https://www.bitstamp.net/api/buy/"
+    postSellLimitOrder:        "https://www.bitstamp.net/api/sell/"
+    postCheckBitstampCode:     "https://www.bitstamp.net/api/check_code/"
+    postRedeemBitstampCode:    "https://www.bitstamp.net/api/redeem_code/"
+    postWithdrawalRequests:    "https://www.bitstamp.net/api/withdrawal_requests/"
+    postBitcoinWithdrawal:     "https://www.bitstamp.net/api/bitcoin_withdrawal/"
+    postBitcoinDepositAddress: "https://www.bitstamp.net/api/bitcoin_deposit_address/"
+    postUnconfirmedBitcoinDeposits: "https://www.bitstamp.net/api/unconfirmed_btc/"
+    postRippleWithrawal:            "https://www.bitstamp.net/api/ripple_withdrawal/"
+    postRippleAddress:              "https://www.bitstamp.net/api/ripple_address/"
 
   @bittstampLogin = (user, password) ->
     success = false
@@ -10,7 +28,7 @@ class Bitstamp
     $.ajax(
       type: "POST"
       async: false
-      url: apiUrl.loginPage
+      url: apiUrl.balance
       data:
         user: (user or "")
         password: (password or "")
@@ -32,7 +50,7 @@ class Bitstamp
     $.ajax(
       type: "GET"
       async: false
-      url: apiUrl.getBitcoinInfoPage
+      url: apiUrl.ticker
     ).done((response) ->
       if response["error"]
         results = "wrong user or password"
