@@ -181,7 +181,7 @@ bitstampApp.controller('LoginCtrl', ['$scope', '$http', '$rootScope', function($
   $scope.logger = {};
   $scope.submitClick = function(event) {
     $scope.$emit('showLoader', 'Logging In...');
-    var lgn = bitstampLogin($scope.credentials.login, $scope.credentials.password);
+    var lgn = bitstamp_api.login($scope.credentials.login, $scope.credentials.password);
     if ( lgn.success ) {
       $rootScope.credentials = $scope.credentials;
       $rootScope.user_balance = lgn.results;
@@ -200,7 +200,7 @@ bitstampApp.controller('HomeCtrl', ['$scope', '$http', '$rootScope', function($s
     $scope.user_balance = $rootScope.user_balance;
   }
   $scope.getBitcoinInfo = function() {
-    var rslt = bitstampGetBicoinInfo();
+    var rslt = bitstamp_api.getBitcoinInfo();
     if ( rslt.success ) {
       $scope.btcData = rslt.results;
       $scope.pushView('home');
