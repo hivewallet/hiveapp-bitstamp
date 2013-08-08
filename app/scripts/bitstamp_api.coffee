@@ -1,7 +1,8 @@
 class Bitstamp
-
-  bitstampLoginPage = "https://www.bitstamp.net/api/balance/"
-  bitstampGetBitcoinInfoPage = "https://www.bitstamp.net/api/ticker/"
+ 
+  apiUrl = 
+    loginPage: "https://www.bitstamp.net/api/balance/"
+    getBitcoinInfoPage: "https://www.bitstamp.net/api/ticker/"
 
   @bittstampLogin = (user, password) ->
     success = false
@@ -9,7 +10,7 @@ class Bitstamp
     $.ajax(
       type: "POST"
       async: false
-      url: bitstampLoginPage
+      url: apiUrl.loginPage
       data:
         user: (user or "")
         password: (password or "")
@@ -31,7 +32,7 @@ class Bitstamp
     $.ajax(
       type: "GET"
       async: false
-      url: bitstampGetBitcoinInfoPage
+      url: apiUrl.getBitcoinInfoPage
     ).done((response) ->
       if response["error"]
         results = "wrong user or password"
