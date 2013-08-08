@@ -230,7 +230,7 @@ module.exports = function (grunt) {
             'manifest.json',
             'bower_components/**/*',
             'images/{,*/}*.{gif,webp}',
-            'styles/font/*'
+            'font/*'
           ]
         }, {
           expand: true,
