@@ -63,4 +63,80 @@ class Bitstamp
     success: success
     results: results
 
+  @getOrderBook = ->
+    success = false
+    results = ""
+    $.ajax(
+      type: "GET"
+      async: false
+      url: apiUrl.getOrderBook
+    ).done((response) ->
+      if response["error"]
+        results = "wrong user or password"
+      else
+        success = true
+        results = response
+    ).fail (response) ->
+      results = "something went wrong"
+
+    success: success
+    results: results
+
+  @getTransactions = ->
+    success = false
+    results = ""
+    $.ajax(
+      type: "GET"
+      async: false
+      url: apiUrl.getTransactions
+    ).done((response) ->
+      if response["error"]
+        results = "wrong user or password"
+      else
+        success = true
+        results = response
+    ).fail (response) ->
+      results = "something went wrong"
+
+    success: success
+    results: results
+
+  @getBitInstatReserves = ->
+    success = false
+    results = ""
+    $.ajax(
+      type: "GET"
+      async: false
+      url: apiUrl.getBitInstatReserves
+    ).done((response) ->
+      if response["error"]
+        results = "wrong user or password"
+      else
+        success = true
+        results = response
+    ).fail (response) ->
+      results = "something went wrong"
+
+    success: success
+    results: results
+
+  @getEurUsdConversionRate = ->
+    success = false
+    results = ""
+    $.ajax(
+      type: "GET"
+      async: false
+      url: apiUrl.getEurUsdConversionRate
+    ).done((response) ->
+      if response["error"]
+        results = "wrong user or password"
+      else
+        success = true
+        results = response
+    ).fail (response) ->
+      results = "something went wrong"
+
+    success: success
+    results: results
+
 this.Bitstamp = Bitstamp

@@ -201,6 +201,17 @@ bitstampApp.controller('HomeCtrl', ['$scope', '$http', '$rootScope', function($s
   }
   $scope.getBitcoinInfo = function() {
     var rslt = Bitstamp.getBitcoinInfo();
+
+    // Uncomment lines below to see GET requests results
+    // console.log('Order Book:');
+    // console.log(Bitstamp.getOrderBook());
+    // console.log('Transactions:');
+    // console.log(Bitstamp.getTransactions());
+    // console.log('Bit Instant Reserves:');
+    // console.log(Bitstamp.getBitInstatReserves());
+    // console.log('EUR/USD Conversion Rate:');
+    // console.log(Bitstamp.getEurUsdConversionRate());
+
     if ( rslt.success ) {
       $scope.btcData = rslt.results;
       $scope.pushView('home');
