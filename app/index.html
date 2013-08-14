@@ -17,7 +17,7 @@
     <!-- endbuild -->
   </head>
   <body class="main" ng-app="hive-bitstamp" ng-controller="MainCtrl">
-    <div ng-include src="menuPartial"></div>
+    <div class="menu-container hidden_menu" ng-class="{hidden_menu: showMenu()}" ng-include src="'views/menu.html'"></div>
     <div class="page" ng-repeat="view in views" ng-class="view.position" ng-include src="view.partial" onload="partialLoaded()"><div class="begie"></div></div>
     <div class="loader"><img src="images/loading.gif"/>{{loaderText}}</div>
   </body>

@@ -1,43 +1,51 @@
-<div class="screen" ng-controller="HomeCtrl" ng-init="initHome()">
+<div class="screen screen-with-menu" ng-controller="HomeCtrl" ng-init="initHome()">
   <div class="menu">
-    <a href="#" class="button btn-small active">
-      <i class="icon-home"></i>
-      Home
+    <a href="#" class="button btn-small active" ng-click="pushView('deposit')">
+      <i class="icon-download"></i>
+      Deposit
     </a>
-    <a href="#" class="button btn-small">
+    <a href="#" class="button btn-small active" ng-click="pushView('withdrawal')">
+      <i class="icon-upload"></i>
+      Withdrawal
+    </a>
+    <a href="#" class="button btn-small active" ng-click="pushView('sell_buy')">
       <i class="icon-bitcoin"></i>
-      Orders
-    </a>
-    <a href="#" ng-click="logOut()" class="button btn-small">
-      <i class="icon-off"></i>
-      Log Out
+      Buy / Sell
     </a>
   </div>
   <div class="home-screen">
     <div style="color:{{logger.color}}">{{logger.msg}}</div>
-    <div class="well">
-      Customer ID:
-      <span class="customer-id">{{credentials.login}}</span>
-    </div>
-    <div class="data">
-      <div class="databox">
-        <div class="label">BTC balance</div>
-        <div class="value">{{user_balance.btc_balance}} <i class="icon-bitcoin"></i></div>
+    <div class="well home">
+      <div class="customer">
+        Customer ID:
+        <span class="customer-id">{{credentials.login}}</span>
       </div>
-      <div class="databox">
-        <div class="label">USD balance</div>
-        <div class="value">{{user_balance.usd_balance}} <i class="icon-usd"></i></div>
+      <div class="data">
+        <div class="databox">
+          <div class="label">BTC balance</div>
+          <div class="value"><i class="icon-bitcoin"></i> {{user_balance.btc_balance}}</div>
+        </div>
+        <div class="databox">
+          <div class="label">USD balance</div>
+          <div class="value"><i class="icon-usd"></i> {{user_balance.usd_balance}}</div>
+        </div>
+        <div class="databox small">
+          <div class="label">BTC in open orders</div>
+          <div class="value"><i class="icon-bitcoin"></i> {{user_balance.btc_reserved}}</div>
+        </div>
+        <div class="databox small">
+          <div class="label">USD in open orders</div>
+          <div class="value"><i class="icon-usd"></i> {{user_balance.usd_reserved}}</div>
+        </div>
+        <div class="databox small">
+          <div class="label">BTC available for trading</div>
+          <div class="value"><i class="icon-bitcoin"></i> {{user_balance.btc_available}}</div>
+        </div>
+        <div class="databox small">
+          <div class="label">USD available for trading</div>
+          <div class="value"><i class="icon-usd"></i> {{user_balance.usd_available}}</i></div>
+        </div>
       </div>
-    </div>
-    <div class="actions">
-      <a href="#" class="button btn-small">
-        <i class="icon-download"></i>
-        Deposit
-      </a>
-      <a href="#" class="button btn-small">
-        <i class="icon-upload"></i>
-        Withdrawal
-      </a>
     </div>
     <div class="current-btc-data">
       <div class="databox">

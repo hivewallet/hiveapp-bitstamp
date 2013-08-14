@@ -1,0 +1,28 @@
+<div class="screen screen-with-menu" ng-controller="WithdrawalCtrl" ng-init="initWithdrawal()">
+  <div class="withdrawal-screen">
+    <div style="color:{{logger.color}}">{{logger.msg}}</div>
+    <div class="well home">
+      <div class="customer">
+        Transfer BTC from Hive wallet to Bitstamp
+      </div>
+      <div class="data info">
+        You have <b>0.00000000</b> bitcoins available in your Hive wallet.
+      </div>
+      <hr>
+      <div class="data">
+        <div class="input_label">Withdrawal Amount:</div>
+        <input type="text" placeholder="BTC">
+      </div>
+      <div class="actions">
+        <a href="#" class="button btn-small" ng-click="popView()">
+          <i class="icon-upload"></i>
+          Withdraw
+        </a>
+        <a href="#" class="button btn-small btn-neutral pull-right" ng-click="popView()">
+          <i class="icon-remove"></i>
+          Cancel
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

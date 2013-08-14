@@ -1,0 +1,67 @@
+<div class="screen screen-with-menu" ng-controller="SellBuyCtrl" ng-init="initSellBuy()">
+  <div class="home-screen">
+    <div style="color:{{logger.color}}">{{logger.msg}}</div>
+    <div class="well home">
+      <ul class="switch">
+        <li class="option" ng-click="active_tab = 'buy'" ng-class="{active: active_tab == 'buy'}">
+          <i class="icon-upload"></i>
+          Buy bitcoins
+        </li>
+        <li class="option" ng-click="active_tab = 'sell'" ng-class="{active: active_tab == 'sell'}">
+          <i class="icon-download"></i>
+          Sell bitcoins
+        </li>
+      </ul>
+      <div class="tab-bitcoins active" ng-class="{active: active_tab == 'buy'}">
+        <div class="data available-amount">
+          Available USD: <i class="icon-usd"> </i><b>0.00</b>
+        </div>
+        <hr>
+        <div class="data">
+          <div class="input_label">I want to buy:</div>
+          <input type="text" placeholder="BTC">
+          <div class="input_label">Price:</div>
+          <input type="text" placeholder="USD">
+          <div class="summary">
+            Total: <strong>$96.57</strong>
+          </div>
+        </div>
+        <div class="actions">
+          <a href="#" class="button btn-small" ng-click="popView()">
+            <i class="icon-upload"></i>
+            Buy bitcoins
+          </a>
+          <a href="#" class="button btn-small btn-neutral pull-right" ng-click="popView()">
+            <i class="icon-remove"></i>
+            Cancel
+          </a>
+        </div>
+      </div>
+      <div class="tab-bitcoins" ng-class="{active: active_tab == 'sell'}">
+        <div class="data available-amount">
+          Available BTC: <i class="icon-bitcoin"> </i><b>0.00</b>
+        </div>
+        <hr>
+        <div class="data">
+          <div class="input_label">I want to sell:</div>
+          <input type="text" placeholder="BTC">
+          <div class="input_label">Price:</div>
+          <input type="text" placeholder="USD">
+          <div class="summary">
+            Total: <strong>$96.57</strong>
+          </div>
+        </div>
+        <div class="actions">
+          <a href="#" class="button btn-small" ng-click="popView()">
+            <i class="icon-upload"></i>
+            Sell bitcoins
+          </a>
+          <a href="#" class="button btn-small btn-neutral pull-right" ng-click="popView()">
+            <i class="icon-remove"></i>
+            Cancel
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

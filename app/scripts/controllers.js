@@ -24,6 +24,11 @@ bitstampApp.controller('MainCtrl', ['$scope', '$http', '$rootScope', function($s
     $scope.credentials.login = "";
     $scope.credentials.password = "";
     $scope.popView();
+    $rootScope.menuHidden = true;
+  }
+  $rootScope.menuHidden = true;
+  $scope.showMenu = function() {
+    return $rootScope.menuHidden;
   }
   // ---------------------
   $scope.lockView = false;
@@ -198,6 +203,7 @@ bitstampApp.controller('HomeCtrl', ['$scope', '$http', '$rootScope', function($s
   $scope.initHome = function() {
     $scope.getBitcoinInfo();
     $scope.user_balance = $rootScope.user_balance;
+    $rootScope.menuHidden = false;
   }
   $scope.getBitcoinInfo = function() {
     var rslt = Bitstamp.getBitcoinInfo();
@@ -209,5 +215,19 @@ bitstampApp.controller('HomeCtrl', ['$scope', '$http', '$rootScope', function($s
       $scope.logger.msg = rslt.results;
     }
     $scope.$emit('hideLoader');
+  }
+}]);
+
+bitstampApp.controller('SellBuyCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
+  $scope.initSellBuy = function() {
+    $scope.active_tab = 'buy';
+  }
+}]);
+bitstampApp.controller('DepositCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
+  $scope.initDeposit = function() {
+  }
+}]);
+bitstampApp.controller('WithdrawalCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
+  $scope.initWithdrawal = function() {
   }
 }]);

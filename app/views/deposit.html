@@ -1,0 +1,28 @@
+<div class="screen screen-with-menu" ng-controller="DepositCtrl" ng-init="initDeposit()">
+  <div class="deposit-screen">
+    <div style="color:{{logger.color}}">{{logger.msg}}</div>
+    <div class="well home">
+      <div class="customer">
+        Transfer BTC from Bitstamp to Hive wallet
+      </div>
+      <div class="data info">
+        You have <b>0.00000000</b> bitcoins available in your Bitstamp wallet.
+      </div>
+      <hr>
+      <div class="data">
+        <div class="input_label">Deposit Amount:</div>
+        <input type="text" placeholder="BTC">
+      </div>
+      <div class="actions">
+        <a href="#" class="button btn-small" ng-click="popView()">
+          <i class="icon-download"></i>
+          Deposit
+        </a>
+        <a href="#" class="button btn-small btn-neutral pull-right" ng-click="popView()">
+          <i class="icon-remove"></i>
+          Cancel
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
