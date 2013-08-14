@@ -18,16 +18,16 @@
         </div>
         <hr>
         <div class="data">
-          <div class="input_label">I want to buy:</div>
-          <input type="text" placeholder="BTC">
-          <div class="input_label">Price:</div>
-          <input type="text" placeholder="USD">
+          <div class="input_label">I want to buy <i class="icon-bitcoin"></i></div>
+          <input type="text" placeholder="BTC" ng-model="buyBTC.btc">
+          <div class="input_label">Price <i class="icon-usd"></i></div>
+          <input type="text" placeholder="USD" ng-model="buyBTC.usd">
           <div class="summary">
-            Total: <strong>$96.57</strong>
+            Total: <strong>${{buyBTCResult()}}</strong>
           </div>
         </div>
         <div class="actions">
-          <a href="#" class="button btn-small" ng-click="popView()">
+          <a href="#" class="button btn-small" ng-click="buyBitcoins()">
             <i class="icon-upload"></i>
             Buy bitcoins
           </a>
@@ -43,16 +43,16 @@
         </div>
         <hr>
         <div class="data">
-          <div class="input_label">I want to sell:</div>
-          <input type="text" placeholder="BTC">
-          <div class="input_label">Price:</div>
-          <input type="text" placeholder="USD">
+          <div class="input_label">I want to sell <i class="icon-bitcoin"></i></div>
+          <input type="text" placeholder="BTC" ng-model="sellBTC.btc">
+          <div class="input_label">Price <i class="icon-usd"></i></div>
+          <input type="text" placeholder="USD" ng-model="sellBTC.usd">
           <div class="summary">
-            Total: <strong>$96.57</strong>
+            Total: <strong>${{sellBTCResult()}}</strong>
           </div>
         </div>
         <div class="actions">
-          <a href="#" class="button btn-small" ng-click="popView()">
+          <a href="#" class="button btn-small" ng-click="sellBitcoins()">
             <i class="icon-upload"></i>
             Sell bitcoins
           </a>

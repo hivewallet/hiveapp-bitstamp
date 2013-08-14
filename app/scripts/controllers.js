@@ -265,7 +265,7 @@ bitstampApp.controller('HomeCtrl', ['$scope', '$http', '$rootScope', function($s
     // console.log(Bitstamp.getRippleAddress($scope.credentials.login, $scope.credentials.password));
 
     if ( rslt.success ) {
-      $scope.btcData = rslt.results;
+      $rootScope.btcData = $scope.btcData = rslt.results;
       $scope.pushView('home');
     } else {
       $scope.logger.color = "red";
@@ -278,41 +278,28 @@ bitstampApp.controller('HomeCtrl', ['$scope', '$http', '$rootScope', function($s
 bitstampApp.controller('SellBuyCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
   $scope.initSellBuy = function() {
     $scope.active_tab = 'buy';
-
-    $('#send_deposit').on('click', function(event){
-      event.preventDefault();
-      $('#logger').html('');
-      var amount = parseFloat($('#amount').val() || 0.0);
-      if (amount <= 0.0) {
-        alert('You need to specify amount!');
-        return false;
-      }
-      $.post(
-        'https://www.bitstamp.net/api/bitcoin_deposit_address/',
-        {
-          user: $('#user').val(),
-          password: $('#password').val()
-        }
-      ).done(function(response) {
-          if (response['error']) {
-             alert('Wrong user or password');
-          } else {
-            // Not sure if it should be in alert
-            alert('Sending ' + amount + ' coins to Bitstamp deposit (' + response + ')');
-            bitcoin.sendCoins(response,  amount,  function(success, hash)  {
-              if (success) {
-                // Not sure if it should be in alert
-                alert('Finished with success ' + success + ' and hash ' + hash);
-              } else {
-                alert('Canceled');
-              }
-            });
-          }
-      }).fail(function(response) {
-        alert('Failed: ' + response);
-      })
-    });
+    $scope.buyBTC = {};
+    $scope.sellBTC = {};
+    $scope.buyBTC.usd = $rootScope.btcData.ask;
+    $scope.buyBTC.btc = 0;
+    $scope.sellBTC.usd = $rootScope.btcData.bid;
+    $scope.sellBTC.btc = 0;
   }
+  $scope.buyBTCResult = function() {
+    return ($scope.buyBTC.btc * $scope.buyBTC.usd).toFixed(2);
+  }
+  $scope.sellBTCResult = function() {
+    return ($scope.sellBTC.btc * $scope.sellBTC.usd).toFixed(2);
+  }
+  
+  $scope.sellBitcoins = function() {
+    $scope.popView();
+  }
+  
+  $scope.buyBitcoins = function() {
+    $scope.popView();
+  }
+  
 }]);
 
 bitstampApp.controller('DepositCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
@@ -334,6 +321,39 @@ bitstampApp.controller('DepositCtrl', ['$scope', '$http', '$rootScope', function
       });
     }
   }
+  $('#send_deposit').on('click', function(event){
+    event.preventDefault();
+    $('#logger').html('');
+    var amount = parseFloat($('#amount').val() || 0.0);
+    if (amount <= 0.0) {
+      alert('You need to specify amount!');
+      return false;
+    }
+    $.post(
+      'https://www.bitstamp.net/api/bitcoin_deposit_address/',
+      {
+        user: $('#user').val(),
+        password: $('#password').val()
+      }
+    ).done(function(response) {
+        if (response['error']) {
+           alert('Wrong user or password');
+        } else {
+          // Not sure if it should be in alert
+          alert('Sending ' + amount + ' coins to Bitstamp deposit (' + response + ')');
+          bitcoin.sendCoins(response,  amount,  function(success, hash)  {
+            if (success) {
+              // Not sure if it should be in alert
+              alert('Finished with success ' + success + ' and hash ' + hash);
+            } else {
+              alert('Canceled');
+            }
+          });
+        }
+    }).fail(function(response) {
+      alert('Failed: ' + response);
+    })
+  });
 }]);
 bitstampApp.controller('WithdrawalCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
   $scope.initWithdrawal = function() {
