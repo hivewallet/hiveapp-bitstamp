@@ -265,7 +265,7 @@ bitstampApp.controller('HomeCtrl', ['$scope', '$http', '$rootScope', function($s
     // console.log(Bitstamp.getRippleAddress($scope.credentials.login, $scope.credentials.password));
 
     if ( rslt.success ) {
-      $scope.btcData = rslt.results;
+      $rootScope.btcData = $scope.btcData = rslt.results;
       $scope.pushView('home');
     } else {
       $scope.logger.color = "red";
@@ -278,7 +278,28 @@ bitstampApp.controller('HomeCtrl', ['$scope', '$http', '$rootScope', function($s
 bitstampApp.controller('SellBuyCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
   $scope.initSellBuy = function() {
     $scope.active_tab = 'buy';
+    $scope.buyBTC = {};
+    $scope.sellBTC = {};
+    $scope.buyBTC.usd = $rootScope.btcData.ask;
+    $scope.buyBTC.btc = 0;
+    $scope.sellBTC.usd = $rootScope.btcData.bid;
+    $scope.sellBTC.btc = 0;
   }
+  $scope.buyBTCResult = function() {
+    return ($scope.buyBTC.btc * $scope.buyBTC.usd).toFixed(2);
+  }
+  $scope.sellBTCResult = function() {
+    return ($scope.sellBTC.btc * $scope.sellBTC.usd).toFixed(2);
+  }
+  
+  $scope.sellBitcoins = function() {
+    $scope.popView();
+  }
+  
+  $scope.buyBitcoins = function() {
+    $scope.popView();
+  }
+  
 }]);
 bitstampApp.controller('DepositCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
   $scope.initDeposit = function() {
