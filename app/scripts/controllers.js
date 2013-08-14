@@ -280,8 +280,25 @@ bitstampApp.controller('SellBuyCtrl', ['$scope', '$http', '$rootScope', function
     $scope.active_tab = 'buy';
   }
 }]);
+
 bitstampApp.controller('DepositCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
   $scope.initDeposit = function() {
+    $scope.user_balance = $rootScope.user_balance;
+  }
+  $scope.sendDeposit = function(){
+    var amount = parseFloat($scope.amount || 0.0)
+    if( amount <= 0.0) {
+      alert("Amount should be greather than 0.0");
+    } else {
+      bitcoin.getClientInfo(function(info) {
+        result = Bitstamp.sendBitcoinWithdrawal($scope.credentials.login, $scope.credentials.password, amount, info['address'])
+        if (result.success) {
+          $scope.popView();
+        } else {
+          console.log(result.results);
+        }
+      });
+    }
   }
 }]);
 bitstampApp.controller('WithdrawalCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {

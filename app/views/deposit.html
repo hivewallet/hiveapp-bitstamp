@@ -6,15 +6,15 @@
         Transfer BTC from Bitstamp to Hive wallet
       </div>
       <div class="data info">
-        You have <b>0.00000000</b> bitcoins available in your Bitstamp wallet.
+        You have <b>{{user_balance.btc_balance}}</b> bitcoins available in your Bitstamp wallet.
       </div>
       <hr>
       <div class="data">
         <div class="input_label">Deposit Amount:</div>
-        <input type="text" placeholder="BTC">
+        <input type="text" placeholder="BTC" ng-model="amount">
       </div>
       <div class="actions">
-        <a href="#" class="button btn-small" ng-click="popView()">
+        <a href="#" class="button btn-small" ng-click="sendDeposit()">
           <i class="icon-download"></i>
           Deposit
         </a>
