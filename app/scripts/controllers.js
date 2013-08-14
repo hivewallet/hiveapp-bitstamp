@@ -207,6 +207,63 @@ bitstampApp.controller('HomeCtrl', ['$scope', '$http', '$rootScope', function($s
   }
   $scope.getBitcoinInfo = function() {
     var rslt = Bitstamp.getBitcoinInfo();
+
+    // Uncomment lines below to see GET requests results
+
+    // console.log('Order Book:');
+    // console.log(Bitstamp.getOrderBook());
+
+    // console.log('Transactions:');
+    // console.log(Bitstamp.getTransactions());
+
+    // console.log('Bit Instant Reserves:');
+    // console.log(Bitstamp.getBitInstatReserves());
+
+    // console.log('EUR/USD Conversion Rate:');
+    // console.log(Bitstamp.getEurUsdConversionRate());
+
+    // console.log('Account Balance:');
+    // console.log(Bitstamp.getAccountBalance($scope.credentials.login, $scope.credentials.password));
+
+    // console.log('User Transactions:');
+    // console.log(Bitstamp.getUserTransactions($scope.credentials.login, $scope.credentials.password));
+
+    // console.log('Open Orders:');
+    // console.log(Bitstamp.getOpenOrders($scope.credentials.login, $scope.credentials.password));
+
+    // console.log('Send Cancel Order:');
+    // console.log(Bitstamp.sendCancelOrder($scope.credentials.login, $scope.credentials.password, '12344321'));
+
+    // console.log('Send Buy Limit Order:');
+    // console.log(Bitstamp.sendBuyLimitOrder($scope.credentials.login, $scope.credentials.password, 2, 1));
+
+    // console.log('Send Sell Limit Order:');
+    // console.log(Bitstamp.sendSellLimitOrder($scope.credentials.login, $scope.credentials.password, 2, 1));
+
+    // console.log('Check BitStamp Code:');
+    // console.log(Bitstamp.checkBitstampCode($scope.credentials.login, $scope.credentials.password, 'abcdefgh12345678abcdefgh12345678'));
+
+    // console.log('Redeem BitStamp Code:');
+    // console.log(Bitstamp.redeemBitstampCode($scope.credentials.login, $scope.credentials.password, 'abcdefgh12345678abcdefgh12345678'));
+
+    // console.log('Get Withdrawal Requests:');
+    // console.log(Bitstamp.getWithdrawalRequests($scope.credentials.login, $scope.credentials.password));
+
+    // console.log('Send Bitcoin Withdrawal:');
+    // console.log(Bitstamp.sendBitcoinWithdrawal($scope.credentials.login, $scope.credentials.password, 1, 'abcdefgh12345678abcdefgh12345678'));
+
+    // console.log('Get Bitcoin Deposit Address:');
+    // console.log(Bitstamp.getBitcoinDepositAddress($scope.credentials.login, $scope.credentials.password));
+
+    // console.log('Get Unconfirmed Bitcoin Deposits:');
+    // console.log(Bitstamp.getUnconfirmedBitcoinDeposits($scope.credentials.login, $scope.credentials.password));
+
+    // console.log('Send Ripple Withdrawal:');
+    // console.log(Bitstamp.sendRippleWithrawal($scope.credentials.login, $scope.credentials.password, 1, 'abcdefgh12345678abcdefgh12345678', 'USD'));
+
+    // console.log('Get Ripple Address:');
+    // console.log(Bitstamp.getRippleAddress($scope.credentials.login, $scope.credentials.password));
+
     if ( rslt.success ) {
       $scope.btcData = rslt.results;
       $scope.pushView('home');
