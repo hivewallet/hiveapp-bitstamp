@@ -456,4 +456,7 @@ class Bitstamp
     success: success
     results: results
 
-this.Bitstamp = Bitstamp
+this.angular.module('bitstamp', [])
+this.angular.module('bitstamp').factory 'bitstampApi', -> Bitstamp
+
+

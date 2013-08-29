@@ -1,4 +1,4 @@
-var bitstampApp = angular.module('hive-bitstamp', []);
+var bitstampApp = angular.module('hive-bitstamp', ['bitstamp']);
 bitstampApp.directive( [ 'focus', 'blur', 'keyup', 'keydown', 'keypress', 'scroll' ].reduce( function ( container, name ) {
     var directiveName = 'ng' + name[ 0 ].toUpperCase( ) + name.substr( 1 );
     container[ directiveName ] = [ '$parse', function ( $parse ) {
@@ -16,7 +16,7 @@ bitstampApp.directive( [ 'focus', 'blur', 'keyup', 'keydown', 'keypress', 'scrol
     return container;
 }, { } ) );
 
-bitstampApp.controller('MainCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
+bitstampApp.controller('MainCtrl', ['$scope', '$http', '$rootScope','bitstampApi', function($scope, $http, $rootScope, bitstampApi) {
   // ---------------------
   $scope.credentials = {};
   $scope.user_balance = {};
@@ -182,11 +182,11 @@ bitstampApp.controller('MainCtrl', ['$scope', '$http', '$rootScope', function($s
   });
   */
 
-bitstampApp.controller('LoginCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
+bitstampApp.controller('LoginCtrl', ['$scope', '$http', '$rootScope', 'bitstampApi', function($scope, $http, $rootScope, bitstampApi) {
   $scope.logger = {};
   $scope.submitClick = function(event) {
     $scope.$emit('showLoader', 'Logging In...');
-    var lgn = Bitstamp.login($scope.credentials.login, $scope.credentials.password);
+    var lgn = bitstampApi.login($scope.credentials.login, $scope.credentials.password);
     if ( lgn.success ) {
       $rootScope.credentials = $scope.credentials;
       $rootScope.user_balance = lgn.results;
@@ -199,70 +199,70 @@ bitstampApp.controller('LoginCtrl', ['$scope', '$http', '$rootScope', function($
   }
 }]);
 
-bitstampApp.controller('HomeCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
+bitstampApp.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'bitstampApi', function($scope, $http, $rootScope, bitstampApi) {
   $scope.initHome = function() {
     $scope.getBitcoinInfo();
     $scope.user_balance = $rootScope.user_balance;
     $rootScope.menuHidden = false;
   }
   $scope.getBitcoinInfo = function() {
-    var rslt = Bitstamp.getBitcoinInfo();
+    var rslt = bitstampApi.getBitcoinInfo();
 
     // Uncomment lines below to see GET requests results
 
     // console.log('Order Book:');
-    // console.log(Bitstamp.getOrderBook());
+    // console.log(bitstampApi.getOrderBook());
 
     // console.log('Transactions:');
-    // console.log(Bitstamp.getTransactions());
+    // console.log(bitstampApi.getTransactions());
 
     // console.log('Bit Instant Reserves:');
-    // console.log(Bitstamp.getBitInstatReserves());
+    // console.log(bitstampApi.getBitInstatReserves());
 
     // console.log('EUR/USD Conversion Rate:');
-    // console.log(Bitstamp.getEurUsdConversionRate());
+    // console.log(bitstampApi.getEurUsdConversionRate());
 
     // console.log('Account Balance:');
-    // console.log(Bitstamp.getAccountBalance($scope.credentials.login, $scope.credentials.password));
+    // console.log(bitstampApi.getAccountBalance($scope.credentials.login, $scope.credentials.password));
 
     // console.log('User Transactions:');
-    // console.log(Bitstamp.getUserTransactions($scope.credentials.login, $scope.credentials.password));
+    // console.log(bitstampApi.getUserTransactions($scope.credentials.login, $scope.credentials.password));
 
     // console.log('Open Orders:');
-    // console.log(Bitstamp.getOpenOrders($scope.credentials.login, $scope.credentials.password));
+    // console.log(bitstampApi.getOpenOrders($scope.credentials.login, $scope.credentials.password));
 
     // console.log('Send Cancel Order:');
-    // console.log(Bitstamp.sendCancelOrder($scope.credentials.login, $scope.credentials.password, '12344321'));
+    // console.log(bitstampApi.sendCancelOrder($scope.credentials.login, $scope.credentials.password, '12344321'));
 
     // console.log('Send Buy Limit Order:');
-    // console.log(Bitstamp.sendBuyLimitOrder($scope.credentials.login, $scope.credentials.password, 2, 1));
+    // console.log(bitstampApi.sendBuyLimitOrder($scope.credentials.login, $scope.credentials.password, 2, 1));
 
     // console.log('Send Sell Limit Order:');
-    // console.log(Bitstamp.sendSellLimitOrder($scope.credentials.login, $scope.credentials.password, 2, 1));
+    // console.log(bitstampApi.sendSellLimitOrder($scope.credentials.login, $scope.credentials.password, 2, 1));
 
     // console.log('Check BitStamp Code:');
-    // console.log(Bitstamp.checkBitstampCode($scope.credentials.login, $scope.credentials.password, 'abcdefgh12345678abcdefgh12345678'));
+    // console.log(bitstampApi.checkBitstampCode($scope.credentials.login, $scope.credentials.password, 'abcdefgh12345678abcdefgh12345678'));
 
     // console.log('Redeem BitStamp Code:');
-    // console.log(Bitstamp.redeemBitstampCode($scope.credentials.login, $scope.credentials.password, 'abcdefgh12345678abcdefgh12345678'));
+    // console.log(bitstampApi.redeemBitstampCode($scope.credentials.login, $scope.credentials.password, 'abcdefgh12345678abcdefgh12345678'));
 
     // console.log('Get Withdrawal Requests:');
-    // console.log(Bitstamp.getWithdrawalRequests($scope.credentials.login, $scope.credentials.password));
+    // console.log(bitstampApi.getWithdrawalRequests($scope.credentials.login, $scope.credentials.password));
 
     // console.log('Send Bitcoin Withdrawal:');
-    // console.log(Bitstamp.sendBitcoinWithdrawal($scope.credentials.login, $scope.credentials.password, 1, 'abcdefgh12345678abcdefgh12345678'));
+    // console.log(bitstampApi.sendBitcoinWithdrawal($scope.credentials.login, $scope.credentials.password, 1, 'abcdefgh12345678abcdefgh12345678'));
 
     // console.log('Get Bitcoin Deposit Address:');
-    // console.log(Bitstamp.getBitcoinDepositAddress($scope.credentials.login, $scope.credentials.password));
+    // console.log(bitstampApi.getBitcoinDepositAddress($scope.credentials.login, $scope.credentials.password));
 
     // console.log('Get Unconfirmed Bitcoin Deposits:');
-    // console.log(Bitstamp.getUnconfirmedBitcoinDeposits($scope.credentials.login, $scope.credentials.password));
+    // console.log(bitstampApi.getUnconfirmedBitcoinDeposits($scope.credentials.login, $scope.credentials.password));
 
     // console.log('Send Ripple Withdrawal:');
-    // console.log(Bitstamp.sendRippleWithrawal($scope.credentials.login, $scope.credentials.password, 1, 'abcdefgh12345678abcdefgh12345678', 'USD'));
+    // console.log(bitstampApi.sendRippleWithrawal($scope.credentials.login, $scope.credentials.password, 1, 'abcdefgh12345678abcdefgh12345678', 'USD'));
 
     // console.log('Get Ripple Address:');
-    // console.log(Bitstamp.getRippleAddress($scope.credentials.login, $scope.credentials.password));
+    // console.log(bitstampApi.getRippleAddress($scope.credentials.login, $scope.credentials.password));
 
     if ( rslt.success ) {
       $rootScope.btcData = $scope.btcData = rslt.results;
@@ -275,7 +275,7 @@ bitstampApp.controller('HomeCtrl', ['$scope', '$http', '$rootScope', function($s
   }
 }]);
 
-bitstampApp.controller('SellBuyCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
+bitstampApp.controller('SellBuyCtrl', ['$scope', '$http', '$rootScope', 'bitstampApi', function($scope, $http, $rootScope, bitstampApi) {
   $scope.initSellBuy = function() {
     $scope.active_tab = 'buy';
     $scope.buyBTC = {};
@@ -302,7 +302,7 @@ bitstampApp.controller('SellBuyCtrl', ['$scope', '$http', '$rootScope', function
   
 }]);
 
-bitstampApp.controller('DepositCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
+bitstampApp.controller('DepositCtrl', ['$scope', '$http', '$rootScope', 'bitstampApi', function($scope, $http, $rootScope, bitstampApi) {
   $scope.initDeposit = function() {
     $scope.user_balance = $rootScope.user_balance;
   }
@@ -312,7 +312,7 @@ bitstampApp.controller('DepositCtrl', ['$scope', '$http', '$rootScope', function
       alert("Amount should be greather than 0.0");
     } else {
       bitcoin.getClientInfo(function(info) {
-        result = Bitstamp.sendBitcoinWithdrawal($scope.credentials.login, $scope.credentials.password, amount, info['address'])
+        result = bitstampApi.sendBitcoinWithdrawal($scope.credentials.login, $scope.credentials.password, amount, info['address'])
         if (result.success) {
           $scope.popView();
         } else {
@@ -355,7 +355,7 @@ bitstampApp.controller('DepositCtrl', ['$scope', '$http', '$rootScope', function
     })
   });
 }]);
-bitstampApp.controller('WithdrawalCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
+bitstampApp.controller('WithdrawalCtrl', ['$scope', '$http', '$rootScope', 'bitstampApi', function($scope, $http, $rootScope, bitstampApi) {
   $scope.initWithdrawal = function() {
   }
 }]);
