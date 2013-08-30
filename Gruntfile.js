@@ -285,6 +285,18 @@ module.exports = function (grunt) {
           ]
         }
       }
+    },
+    compress: {
+      main: {
+        options: {
+          mode: 'zip',
+          archive: 'bitstamp.hiveapp',
+          pretty:  true
+        },
+        files: [
+          {expand: true, cwd: 'dist/', src: ['**'], dest: './'}, // makes all src relative to cwd
+        ]
+      }
     }
   });
 
@@ -320,7 +332,8 @@ module.exports = function (grunt) {
     'cssmin',
     //'uglify',
     //'rev',
-    'usemin'
+    'usemin',
+    'compress'
   ]);
 
   grunt.registerTask('default', [
