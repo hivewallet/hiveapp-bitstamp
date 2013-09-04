@@ -11,6 +11,7 @@ body {
   bottom: 0;
   -webkit-user-select:none;
   -webkit-text-size-adjust:none;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .loader {
@@ -137,10 +138,33 @@ body {
   padding: 15px;
   font-size: 14px;
   line-height: 1.5em;
+  height: 100%;
+  overflow: auto;
 }
 
 .screen-with-menu {
   padding-top: 80px;
+}
+
+.orders-screen {
+  height: 90%;
+  overflow: auto;
+}
+
+.asks-list, .bids-list {
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+  -webkit-transition: all 1s ease;
+}
+
+.asks-list.active, .bids-list.active {
+  height: auto;
+  opacity: 1;
+}
+
+.asks-list.hidden, .bids-list.hidden {
+  display: none;
 }
 
 input {
@@ -400,7 +424,8 @@ input:focus {
 }
 
 .menu-container {
-  margin: 10px 10px 0;
+  background: rgba(247, 246, 242, 0.9);
+  padding: 10px 10px 0;
   opacity: 1;
   -webkit-transition: all 1s ease;
   position: relative;
@@ -462,6 +487,49 @@ input:focus {
   color: white;
 }
 
+.bids-list h2, .asks-list h2 {
+  color: #8EC919;
+  font-weight: bold;
+  font-size: 18px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.standard-table {
+  width: 100%;
+  background: #fff;
+  color: #666;
+  border: 1px solid #e6e6e6;
+  border-collapse: collapse;
+  padding: 12px;
+  text-align: left;
+  -webkit-transition: all 0.1s linear;
+  -moz-transition: all 0.1s linear;
+  transition: all 0.1s linear;
+}
+
+.standard-table th {
+  font-weight: bold;
+  border: 1px solid #e6e6e6;
+  border-collapse: collapse;
+  padding: 12px;
+  text-align: left;
+  -webkit-transition: all 0.1s linear;
+  -moz-transition: all 0.1s linear;
+  transition: all 0.1s linear;
+}
+
+.standard-table td {
+  border: 1px solid #e6e6e6;
+  border-collapse: collapse;
+  padding: 12px;
+  text-align: left;
+  -webkit-transition: all 0.1s linear;
+  -moz-transition: all 0.1s linear;
+  transition: all 0.1s linear;
+}
+
+
 .hidden_menu {
   top: -120px;
   opacity: 0;
@@ -472,9 +540,14 @@ input:focus {
   padding: 0 0 15px 0;
 }
 
+.menu.single {
+  padding: 0;
+  height: 10%;
+}
+
 .menu .button{
   border-radius: 4px;
-  margin: 0 0 0 0;
+  margin: 4px 0 0 0;
   padding: 9px 16px;
   font-size: 12px;
   background: #CCC;
@@ -491,6 +564,16 @@ input:focus {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9ECC34',endColorstr='#8EC919',GradientType=0);
 }
 
+.menu .button.select-left {
+  float: right;
+  border-radius: 0 4px 4px 0;
+}
+
+.menu .button.select-right {
+  float: right;
+  border-radius: 4px 0 0 4px;
+}
+
 hr {
   border: 0;
   border-bottom: 1px dashed #e6e6e6;
@@ -499,6 +582,8 @@ hr {
 .pull-right {
   float: right;
 }
+
+
 
 @media all and (min-width: 640px) {
   .page article {

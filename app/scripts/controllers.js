@@ -302,6 +302,12 @@ bitstampApp.controller('SellBuyCtrl', ['$scope', '$http', '$rootScope', 'bitstam
   
 }]);
 
+bitstampApp.controller('OrdersCtrl', ['$scope', '$http', '$rootScope', 'bitstampApi', function($scope, $http, $rootScope, bitstampApi) {
+  $scope.initOrders = function() {
+    $scope.list = 'asks';
+  } 
+}]);
+
 bitstampApp.controller('DepositCtrl', ['$scope', '$http', '$rootScope', 'bitstampApi', function($scope, $http, $rootScope, bitstampApi) {
   $scope.initDeposit = function() {
     $scope.user_balance = $rootScope.user_balance;
