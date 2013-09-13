@@ -5,7 +5,8 @@
     "angular": "~1.0.7",
     "json3": "~3.2.4",
     "angular-cookies": "~1.0.7",
-    "jquery": "latest"
+    "jquery": "latest",
+    "underscore": "latest"
   },
   "devDependencies": {
     "angular-mocks": "~1.0.7",

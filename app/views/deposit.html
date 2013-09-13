@@ -1,6 +1,6 @@
 <div class="screen screen-with-menu" ng-controller="DepositCtrl" ng-init="initDeposit()">
   <div class="deposit-screen">
-    <div style="color:{{logger.color}}">{{logger.msg}}</div>
+    <div class="logger {{logger.type}}">{{logger.msg}}</div>
     <div class="well home">
       <div class="customer">
         Transfer BTC from Bitstamp to Hive wallet

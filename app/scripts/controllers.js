@@ -184,6 +184,7 @@ bitstampApp.controller('MainCtrl', ['$scope', '$http', '$rootScope','bitstampApi
 
 bitstampApp.controller('LoginCtrl', ['$scope', '$http', '$rootScope', 'bitstampApi', function($scope, $http, $rootScope, bitstampApi) {
   $scope.logger = {};
+  $scope.logger.type = '';
   $scope.submitClick = function(event) {
     $scope.$emit('showLoader', 'Logging In...');
     var lgn = bitstampApi.login($scope.credentials.login, $scope.credentials.password);
@@ -192,8 +193,9 @@ bitstampApp.controller('LoginCtrl', ['$scope', '$http', '$rootScope', 'bitstampA
       $rootScope.user_balance = lgn.results;
       $scope.pushView('home');
     } else {
-      $scope.logger.color = "red";
+      $scope.logger.type = "wrong";
       $scope.logger.msg = lgn.results;
+      $('.screen').animate({scrollTop : 0},500);
     }
     $scope.$emit('hideLoader');
   }
@@ -205,9 +207,24 @@ bitstampApp.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'bitstampAp
     $scope.user_balance = $rootScope.user_balance;
     $rootScope.menuHidden = false;
   }
+  $scope.updateWallet = function(event) {
+    $scope.$emit('showLoader');
+    var lgn = bitstampApi.login($scope.credentials.login, $scope.credentials.password);
+    if ( lgn.success ) {
+      $rootScope.user_balance = $scope.user_balance = lgn.results;
+      console.log($scope.user_balance);
+    } else {
+      $scope.logger.type = "wrong";
+      $scope.logger.msg = lgn.results;
+      $('.screen').animate({scrollTop : 0},500);
+    }
+    $scope.$emit('hideLoader');
+  }
+  $rootScope.$on("reloadWallet", function() {
+    $scope.updateWallet();
+  });
   $scope.getBitcoinInfo = function() {
     var rslt = bitstampApi.getBitcoinInfo();
-
     // Uncomment lines below to see GET requests results
 
     // console.log('Order Book:');
@@ -268,8 +285,9 @@ bitstampApp.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'bitstampAp
       $rootScope.btcData = $scope.btcData = rslt.results;
       $scope.pushView('home');
     } else {
-      $scope.logger.color = "red";
+      $scope.logger.type = "wrong";
       $scope.logger.msg = rslt.results;
+      $('.screen').animate({scrollTop : 0},500);
     }
     $scope.$emit('hideLoader');
   }
@@ -277,6 +295,8 @@ bitstampApp.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'bitstampAp
 
 bitstampApp.controller('SellBuyCtrl', ['$scope', '$http', '$rootScope', 'bitstampApi', function($scope, $http, $rootScope, bitstampApi) {
   $scope.initSellBuy = function() {
+    $scope.logger = {};
+    $scope.logger.type = '';
     $scope.active_tab = 'buy';
     $scope.buyBTC = {};
     $scope.sellBTC = {};
@@ -284,6 +304,9 @@ bitstampApp.controller('SellBuyCtrl', ['$scope', '$http', '$rootScope', 'bitstam
     $scope.buyBTC.btc = 0;
     $scope.sellBTC.usd = $rootScope.btcData.bid;
     $scope.sellBTC.btc = 0;
+    $rootScope.$emit('reloadWallet');
+    $scope.balance = $rootScope.user_balance;
+    $scope.balance = $rootScope.user_balance;
   }
   $scope.buyBTCResult = function() {
     return ($scope.buyBTC.btc * $scope.buyBTC.usd).toFixed(2);
@@ -293,11 +316,89 @@ bitstampApp.controller('SellBuyCtrl', ['$scope', '$http', '$rootScope', 'bitstam
   }
   
   $scope.sellBitcoins = function() {
-    $scope.popView();
+    $scope.hasErrors = false;
+    $scope.errors = {};
+    if ( !$scope.sellBTC.btc ) {
+      $scope.errors.sellBTC_btc = ['Can\'t be blank.'];
+    } else {
+      if ( $scope.sellBTC.btc < 0.00000001 || $scope.sellBTC.btc >= 99999999)
+        $scope.errors.sellBTC_btc = ['Ensure this value is greater than or equal to 1E-8.'];
+      if ( !jQuery.isNumeric($scope.sellBTC.btc) )
+        $scope.errors.sellBTC_btc = ['Enter a number.'];
+    }
+    $scope.hasErrors = !_.isEmpty($scope.errors);
+    if ( $scope.hasErrors ) {
+      $('.screen').animate({scrollTop : 0},500);
+      return;
+    }
+    
+    $scope.$emit('showLoader');
+    var currentBitcoinData = bitstampApi.getBitcoinInfo();
+    if ( currentBitcoinData.success ) {
+      $rootScope.btcData = $scope.btcData = currentBitcoinData.results;
+      console.log('I want to sell ' + $scope.buyBTC.btc + ' btc for marketprice ' + $rootScope.btcData.bid + ' usd');
+      // I know the highest buy price now, lets send the request:
+      var sellLimitOrder = bitstampApi.sendSellLimitOrder($scope.credentials.login, $scope.credentials.password, $scope.sellBTC.btc, $rootScope.btcData.bid)
+      if ( sellLimitOrder.success ) {
+        console.log('There you go! I accept your offer.');
+        $rootScope.$emit('reloadWallet');
+        $scope.popView();
+      } else {
+        console.log(sellLimitOrder.results)
+        $scope.logger.type = "wrong";
+        $scope.logger.msg = sellLimitOrder.results;
+        $('.screen').animate({scrollTop : 0},500);
+      }
+    } else {
+      console.log(currentBitcoinData.results)
+      $scope.logger.type = "wrong";
+      $scope.logger.msg = currentBitcoinData.results;
+      $('.screen').animate({scrollTop : 0},500);
+    }
+    $scope.$emit('hideLoader');
   }
   
   $scope.buyBitcoins = function() {
-    $scope.popView();
+    $scope.hasErrors = false;
+    $scope.errors = {};
+    if ( !$scope.buyBTC.btc ) {
+      $scope.errors.buyBTC_btc = ['Can\'t be blank.'];
+    } else {
+      if ( $scope.buyBTC.btc < 0.00000001 || $scope.buyBTC.btc >= 99999999)
+        $scope.errors.buyBTC_btc = ['Ensure this value is greater than or equal to 1E-8.'];
+      if ( !jQuery.isNumeric($scope.buyBTC.btc) )
+        $scope.errors.buyBTC_btc = ['Enter a number.'];
+    }
+    $scope.hasErrors = !_.isEmpty($scope.errors);
+    if ( $scope.hasErrors ) {
+      $('.screen').animate({scrollTop : 0},500);
+      return;
+    }
+    
+    $scope.$emit('showLoader');
+    var currentBitcoinData = bitstampApi.getBitcoinInfo();
+    if ( currentBitcoinData.success ) {
+      $rootScope.btcData = $scope.btcData = currentBitcoinData.results;
+      console.log('I want to buy ' + $scope.buyBTC.btc + ' btc for marketprice ' + $rootScope.btcData.ask + ' usd');
+      // I know the lowest sell price now, lets send the request:
+      var buyLimitOrder = bitstampApi.sendBuyLimitOrder($scope.credentials.login, $scope.credentials.password, $scope.buyBTC.btc, $rootScope.btcData.ask)
+      if ( buyLimitOrder.success ) {
+        console.log('There you go! I accept your offer.');
+        $rootScope.$emit('reloadWallet');
+        $scope.popView();
+      } else {
+        console.log(buyLimitOrder.results)
+        $scope.logger.type = "wrong";
+        $scope.logger.msg = buyLimitOrder.results;
+        $('.screen').animate({scrollTop : 0},500);
+      }
+    } else {
+      console.log(currentBitcoinData.results)
+      $scope.logger.type = "wrong";
+      $scope.logger.msg = currentBitcoinData.results;
+      $('.screen').animate({scrollTop : 0},500);
+    }
+    $scope.$emit('hideLoader');
   }
   
 }]);

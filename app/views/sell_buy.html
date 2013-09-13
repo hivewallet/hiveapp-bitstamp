@@ -1,6 +1,6 @@
 <div class="screen screen-with-menu" ng-controller="SellBuyCtrl" ng-init="initSellBuy()">
   <div class="sell-buy-screen">
-    <div style="color:{{logger.color}}">{{logger.msg}}</div>
+    <div class="logger {{logger.type}}">{{logger.msg}}</div>
     <div class="well home">
       <ul class="switch">
         <li class="option" ng-click="active_tab = 'buy'" ng-class="{active: active_tab == 'buy'}">
@@ -14,14 +14,15 @@
       </ul>
       <div class="tab-bitcoins active" ng-class="{active: active_tab == 'buy'}">
         <div class="data available-amount">
-          Available USD: <i class="icon-usd"> </i><b>0.00</b>
+          Available USD: <i class="icon-usd"> </i><b>{{balance.usd_balance}}</b>
         </div>
         <hr>
         <div class="data">
           <div class="input_label">I want to buy <i class="icon-bitcoin"></i></div>
-          <input type="text" placeholder="BTC" ng-model="buyBTC.btc">
+          <input ng-class="{invalid: errors.buyBTC_btc}" type="text" placeholder="BTC" ng-model="buyBTC.btc">
+          <div class="alert alert-error" ng-class="{hidden: !errors.buyBTC_btc}">{{errors.buyBTC_btc[0]}}</div>
           <div class="input_label">Price <i class="icon-usd"></i></div>
-          <input type="text" placeholder="USD" ng-model="buyBTC.usd">
+          <input type="text" placeholder="USD" ng-model="buyBTC.usd" disabled="disabled">
           <div class="summary">
             Total: <strong>${{buyBTCResult()}}</strong>
           </div>
@@ -39,14 +40,15 @@
       </div>
       <div class="tab-bitcoins" ng-class="{active: active_tab == 'sell'}">
         <div class="data available-amount">
-          Available BTC: <i class="icon-bitcoin"> </i><b>0.00</b>
+          Available BTC: <i class="icon-bitcoin"> </i><b>{{balance.btc_balance}}</b>
         </div>
         <hr>
         <div class="data">
           <div class="input_label">I want to sell <i class="icon-bitcoin"></i></div>
-          <input type="text" placeholder="BTC" ng-model="sellBTC.btc">
+          <input ng-class="{invalid: errors.sellBTC_btc}" type="text" placeholder="BTC" ng-model="sellBTC.btc">
+          <div class="alert alert-error" ng-class="{hidden: !errors.sellBTC_btc}">{{errors.sellBTC_btc[0]}}</div>
           <div class="input_label">Price <i class="icon-usd"></i></div>
-          <input type="text" placeholder="USD" ng-model="sellBTC.usd">
+          <input type="text" placeholder="USD" ng-model="sellBTC.usd" disabled="disabled">
           <div class="summary">
             Total: <strong>${{sellBTCResult()}}</strong>
           </div>

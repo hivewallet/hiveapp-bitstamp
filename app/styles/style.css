@@ -134,6 +134,28 @@ body {
   color: #333;
 }
 
+.logger {
+  background: white;
+  margin-bottom: 0px;
+  padding: 0px;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+  -webkit-transition: all 0.5s ease;
+  line-height: 0;
+  color: #fff;
+}
+
+.logger.wrong {
+  padding: 10px;
+  margin-bottom: 10px;
+  height: auto;
+  opacity: 1;
+  color: #D00;
+  line-height: 22px;
+}
+
 .screen {
   padding: 15px;
   font-size: 14px;
@@ -178,9 +200,25 @@ input {
   -webkit-appearance: none;
   margin-bottom: 10px;
 }
+
+input[disabled="disabled"] {
+  background: #FAFAFA;
+}
+
 input:focus {
   outline: none;
   border: 1px solid #8EC919;
+}
+
+input.invalid {
+  border-color: #D00;
+}
+
+.alert {
+  color: #D00;
+  font-size: 12px;
+  padding: 0 4px;
+  margin-top: -9px;
 }
 
 .log-in {

@@ -1,5 +1,6 @@
 <div class="screen screen-with-menu" ng-controller="HomeCtrl" ng-init="initHome()">
   <div class="menu">
+    <!--- Not yet ready
     <a href="#" class="button btn-small active" ng-click="pushView('deposit')">
       <i class="icon-download"></i>
       Deposit
@@ -8,17 +9,20 @@
       <i class="icon-upload"></i>
       Withdrawal
     </a>
+    -->
     <a href="#" class="button btn-small active" ng-click="pushView('sell_buy')">
       <i class="icon-bitcoin"></i>
       Buy / Sell
     </a>
+    <!--- Not yet ready
     <a href="#" class="button btn-small active" ng-click="pushView('orders')">
       <i class="icon-shopping-cart"></i>
       Orders Book
     </a>
+    -->
   </div>
   <div class="home-screen">
-    <div style="color:{{logger.color}}">{{logger.msg}}</div>
+    <div class="logger {{logger.type}}">{{logger.msg}}</div>
     <div class="well home">
       <div class="customer">
         Customer ID:
