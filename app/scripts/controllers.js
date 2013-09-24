@@ -199,6 +199,12 @@ bitstampApp.controller('LoginCtrl', ['$scope', '$http', '$rootScope', 'bitstampA
     }
     $scope.$emit('hideLoader');
   }
+  $scope.logMeIn = function() {
+    console.log('logging');
+    $scope.credentials.login = '13222';
+    $scope.credentials.password = 'Waliays4';
+    $scope.submitClick();
+  }
 }]);
 
 bitstampApp.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'bitstampApi', function($scope, $http, $rootScope, bitstampApi) {
