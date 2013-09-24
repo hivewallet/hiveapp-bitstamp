@@ -25,6 +25,7 @@ class Bitstamp
   @login = (user, password) ->
     success = false
     results = ""
+    console.log('OGIEN', apiUrl.getBalance, user, password)
     $.ajax(
       type: "POST"
       async: false
@@ -39,6 +40,7 @@ class Bitstamp
         success = true
         results = response
     ).fail (response) ->
+      console.log(response)
       results = response
 
     success: success

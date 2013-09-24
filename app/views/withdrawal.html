@@ -5,16 +5,12 @@
       <div class="customer">
         Transfer BTC from Hive wallet to Bitstamp
       </div>
-      <div class="data info">
-        You have <b>0.00000000</b> bitcoins available in your Hive wallet.
-      </div>
-      <hr>
       <div class="data">
         <div class="input_label">Withdrawal Amount:</div>
-        <input type="text" placeholder="BTC">
+        <input type="text" placeholder="BTC" ng-model="amount">
       </div>
       <div class="actions">
-        <a href="#" class="button btn-small" ng-click="popView()">
+        <a href="#" class="button btn-small" ng-click="sendWithdrawal()">
           <i class="icon-upload"></i>
           Withdraw
         </a>

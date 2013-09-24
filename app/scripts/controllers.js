@@ -410,59 +410,81 @@ bitstampApp.controller('OrdersCtrl', ['$scope', '$http', '$rootScope', 'bitstamp
 }]);
 
 bitstampApp.controller('DepositCtrl', ['$scope', '$http', '$rootScope', 'bitstampApi', function($scope, $http, $rootScope, bitstampApi) {
+  $scope.logger = {};
+  $scope.logger.type = '';
   $scope.initDeposit = function() {
     $scope.user_balance = $rootScope.user_balance;
   }
   $scope.sendDeposit = function(){
     var amount = parseFloat($scope.amount || 0.0)
     if( amount <= 0.0) {
-      alert("Amount should be greather than 0.0");
+      $scope.logger.type = "wrong";
+      $scope.logger.msg = "Amount should be greather than 0.0";
+      $('.screen').animate({scrollTop : 0},500);
     } else {
+      $scope.$emit('showLoader');
       bitcoin.getClientInfo(function(info) {
         result = bitstampApi.sendBitcoinWithdrawal($scope.credentials.login, $scope.credentials.password, amount, info['address'])
         if (result.success) {
           $scope.popView();
         } else {
           console.log(result.results);
+          $scope.logger.type = "wrong";
+          $scope.logger.msg = result.results.amount[0];
+          $('.screen').animate({scrollTop : 0},500);
         }
       });
+      $scope.$emit('hideLoader');
     }
   }
-  $('#send_deposit').on('click', function(event){
-    event.preventDefault();
-    $('#logger').html('');
-    var amount = parseFloat($('#amount').val() || 0.0);
+
+}]);
+
+bitstampApp.controller('WithdrawalCtrl', ['$scope', '$http', '$rootScope', 'bitstampApi', function($scope, $http, $rootScope, bitstampApi) {
+  $scope.logger = {};
+  $scope.logger.type = '';
+  $scope.initWithdrawal = function() {
+    bitcoin.getClientInfo(function(response){
+    })
+  }
+
+  $scope.sendWithdrawal = function() {
+
+    var amount = parseFloat($scope.amount || 0.0);
     if (amount <= 0.0) {
-      alert('You need to specify amount!');
+      $scope.logger.type = "wrong";
+      $scope.logger.msg = "Amount should be greather than 0.0";
+      $('.screen').animate({scrollTop : 0},500);
       return false;
     }
+    $scope.$emit('showLoader');
     $.post(
       'https://www.bitstamp.net/api/bitcoin_deposit_address/',
       {
-        user: $('#user').val(),
-        password: $('#password').val()
+        user: $scope.credentials.login,
+        password: $scope.credentials.password
       }
     ).done(function(response) {
         if (response['error']) {
-           alert('Wrong user or password');
+          console.log(result.results);
+          $scope.logger.type = "wrong";
+          $scope.logger.msg = "Wrong Bitstamp credentials"
+          $('.screen').animate({scrollTop : 0},500);
         } else {
-          // Not sure if it should be in alert
-          alert('Sending ' + amount + ' coins to Bitstamp deposit (' + response + ')');
           bitcoin.sendCoins(response,  amount,  function(success, hash)  {
             if (success) {
-              // Not sure if it should be in alert
-              alert('Finished with success ' + success + ' and hash ' + hash);
-            } else {
-              alert('Canceled');
+              $scope.popView();
+              $scope.$apply();
             }
           });
         }
+      $scope.$emit('hideLoader');
     }).fail(function(response) {
-      alert('Failed: ' + response);
+      console.log(response);
+      $scope.logger.type = "wrong";
+      $scope.logger.msg = response;
+      $('.screen').animate({scrollTop : 0},500);
+      $scope.$emit('hideLoader');
     })
-  });
-}]);
-bitstampApp.controller('WithdrawalCtrl', ['$scope', '$http', '$rootScope', 'bitstampApi', function($scope, $http, $rootScope, bitstampApi) {
-  $scope.initWithdrawal = function() {
   }
 }]);
