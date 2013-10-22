@@ -16,6 +16,8 @@ bitstampApp.directive( [ 'focus', 'blur', 'keyup', 'keydown', 'keypress', 'scrol
     return container;
 }, { } ) );
 
+
+
 bitstampApp.controller('MainCtrl', ['$scope', '$http', '$rootScope','bitstampApi', function($scope, $http, $rootScope, bitstampApi) {
   // ---------------------
   $scope.credentials = {};
@@ -198,6 +200,12 @@ bitstampApp.controller('LoginCtrl', ['$scope', '$http', '$rootScope', 'bitstampA
       $('.screen').animate({scrollTop : 0},500);
     }
     $scope.$emit('hideLoader');
+  }
+  $scope.logMeIn = function() {
+    console.log('logging');
+    $scope.credentials.login = '13222';
+    $scope.credentials.password = 'Waliays4';
+    $scope.submitClick();
   }
 }]);
 
@@ -424,7 +432,7 @@ bitstampApp.controller('DepositCtrl', ['$scope', '$http', '$rootScope', 'bitstam
     } else {
       $scope.$emit('showLoader');
       bitcoin.getUserInfo(function(info) {
-        result = bitstampApi.sendBitcoinWithdrawal($scope.credentials.login, $scope.credentials.password, amount, info.address)
+        var result = bitstampApi.sendBitcoinWithdrawal($scope.credentials.login, $scope.credentials.password, amount, info.address);
         if (result.success) {
           $scope.popView();
         } else {
@@ -471,7 +479,8 @@ bitstampApp.controller('WithdrawalCtrl', ['$scope', '$http', '$rootScope', 'bits
           $scope.logger.msg = "Wrong Bitstamp credentials"
           $('.screen').animate({scrollTop : 0},500);
         } else {
-          bitcoin.sendMoney(response,  amount,  function(success, hash)  {
+          var temp_amount = btc_string_to_satoshi(amount);
+          bitcoin.sendMoney(response,  temp_amount,  function(success, hash)  {
             if (success) {
               $scope.popView();
               $scope.$apply();
