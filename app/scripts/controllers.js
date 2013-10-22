@@ -423,8 +423,8 @@ bitstampApp.controller('DepositCtrl', ['$scope', '$http', '$rootScope', 'bitstam
       $('.screen').animate({scrollTop : 0},500);
     } else {
       $scope.$emit('showLoader');
-      bitcoin.getClientInfo(function(info) {
-        result = bitstampApi.sendBitcoinWithdrawal($scope.credentials.login, $scope.credentials.password, amount, info['address'])
+      bitcoin.getUserInfo(function(info) {
+        result = bitstampApi.sendBitcoinWithdrawal($scope.credentials.login, $scope.credentials.password, amount, info.address)
         if (result.success) {
           $scope.popView();
         } else {
@@ -444,7 +444,7 @@ bitstampApp.controller('WithdrawalCtrl', ['$scope', '$http', '$rootScope', 'bits
   $scope.logger = {};
   $scope.logger.type = '';
   $scope.initWithdrawal = function() {
-    bitcoin.getClientInfo(function(response){
+    bitcoin.getUserInfo(function(response){
     })
   }
 
@@ -471,7 +471,7 @@ bitstampApp.controller('WithdrawalCtrl', ['$scope', '$http', '$rootScope', 'bits
           $scope.logger.msg = "Wrong Bitstamp credentials"
           $('.screen').animate({scrollTop : 0},500);
         } else {
-          bitcoin.sendCoins(response,  amount,  function(success, hash)  {
+          bitcoin.sendMoney(response,  amount,  function(success, hash)  {
             if (success) {
               $scope.popView();
               $scope.$apply();
